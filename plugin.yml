@@ -1,0 +1,6 @@
+name: ChatReplace
+main: name.richardson.james.chatreplace.ChatReplace
+version: 1.0.0
+author: James Richardson (grandwazir)
+description: Modify chat messages using regular expressions.
+website: https://github.com/grandwazir/ChatReplace
