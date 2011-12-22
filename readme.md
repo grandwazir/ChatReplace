@@ -1,7 +1,7 @@
 ChatReplace - modify chat messages using regular expressions.
 ====================================
 
-ChatReplace is plugin for the Minecraft wrapper [Bukkit](http://bukkit.org/) that provides a method for administrators to reactively modify chat on a server through matching regular expressions. You could use this to match undesirble words and change them into less offensive ones or censor them completely. Alternatively you could use the plugin to create simple roleplay themed events or enforce a particualr style of language on a server.
+ChatReplace is plugin for the Minecraft wrapper [Bukkit](http://bukkit.org/) that provides a method for administrators to reactively modify chat on a server through matching regular expressions. You could use this to match undesirble words and change them into less offensive ones or censor them completely. Alternatively you could use the plugin to create simple roleplay themed events or enforce a particular style of language on a server.
 
 ## Features
 
