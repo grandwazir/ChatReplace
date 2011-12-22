@@ -17,7 +17,7 @@
  * TimedMessages. If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package name.richardson.james.chatreplace.management;
+package name.richardson.james.bukkit.chatreplace.management;
 
 import java.io.IOException;
 import java.util.Map;
@@ -27,9 +27,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
 
+import name.richardson.james.bukkit.chatreplace.ChatReplace;
 import name.richardson.james.bukkit.util.command.CommandUsageException;
 import name.richardson.james.bukkit.util.command.PlayerCommand;
-import name.richardson.james.chatreplace.ChatReplace;
 
 public class ReloadCommand extends PlayerCommand {
 

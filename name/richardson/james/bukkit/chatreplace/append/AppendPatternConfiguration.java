@@ -1,4 +1,4 @@
-package name.richardson.james.chatreplace.append;
+package name.richardson.james.bukkit.chatreplace.append;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -7,9 +7,9 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import name.richardson.james.bukkit.chatreplace.PatternConfiguration;
 import name.richardson.james.bukkit.util.Plugin;
 import name.richardson.james.bukkit.util.configuration.AbstractConfiguration;
-import name.richardson.james.chatreplace.PatternConfiguration;
 
 
 public class AppendPatternConfiguration extends AbstractConfiguration implements PatternConfiguration {

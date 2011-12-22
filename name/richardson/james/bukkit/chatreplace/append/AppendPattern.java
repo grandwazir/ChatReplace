@@ -15,13 +15,13 @@
  * You should have received a copy of the GNU General Public License 
  * along with ChatReplace.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package name.richardson.james.chatreplace.append;
+package name.richardson.james.bukkit.chatreplace.append;
 
 import java.util.List;
 import java.util.Random;
 import java.util.regex.PatternSyntaxException;
 
-import name.richardson.james.chatreplace.Pattern;
+import name.richardson.james.bukkit.chatreplace.Pattern;
 
 public class AppendPattern extends Pattern {
 

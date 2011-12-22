@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License 
  * along with ChatReplace.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package name.richardson.james.chatreplace;
+package name.richardson.james.bukkit.chatreplace;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -25,15 +25,15 @@ import org.bukkit.event.Event;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 
+import name.richardson.james.bukkit.chatreplace.append.AppendChatFormatter;
+import name.richardson.james.bukkit.chatreplace.append.AppendPatternConfiguration;
+import name.richardson.james.bukkit.chatreplace.management.ReloadCommand;
+import name.richardson.james.bukkit.chatreplace.management.StatusCommand;
+import name.richardson.james.bukkit.chatreplace.substitution.SubstitutionChatFormatter;
+import name.richardson.james.bukkit.chatreplace.substitution.SubstitutionPatternConfiguration;
 import name.richardson.james.bukkit.util.Logger;
 import name.richardson.james.bukkit.util.Plugin;
 import name.richardson.james.bukkit.util.command.CommandManager;
-import name.richardson.james.chatreplace.append.AppendChatFormatter;
-import name.richardson.james.chatreplace.append.AppendPatternConfiguration;
-import name.richardson.james.chatreplace.management.ReloadCommand;
-import name.richardson.james.chatreplace.management.StatusCommand;
-import name.richardson.james.chatreplace.substitution.SubstitutionChatFormatter;
-import name.richardson.james.chatreplace.substitution.SubstitutionPatternConfiguration;
 
 
 public class ChatReplace extends Plugin {

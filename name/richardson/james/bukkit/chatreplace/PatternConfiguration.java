@@ -1,4 +1,4 @@
-package name.richardson.james.chatreplace;
+package name.richardson.james.bukkit.chatreplace;
 
 import java.util.Set;
 

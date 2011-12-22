@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License 
  * along with ChatReplace.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package name.richardson.james.chatreplace;
+package name.richardson.james.bukkit.chatreplace;
 
 import java.util.Set;
 

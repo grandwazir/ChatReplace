@@ -1,4 +1,4 @@
-package name.richardson.james.chatreplace.substitution;
+package name.richardson.james.bukkit.chatreplace.substitution;
 
 import java.io.IOException;
 import java.util.Arrays;

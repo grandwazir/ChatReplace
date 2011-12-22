@@ -15,13 +15,13 @@
  * You should have received a copy of the GNU General Public License 
  * along with ChatReplace.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package name.richardson.james.chatreplace.append;
+package name.richardson.james.bukkit.chatreplace.append;
 
 import java.io.IOException;
 import java.util.Set;
 
+import name.richardson.james.bukkit.chatreplace.ChatFormatter;
 import name.richardson.james.bukkit.util.Logger;
-import name.richardson.james.chatreplace.ChatFormatter;
 
 public class AppendChatFormatter implements ChatFormatter {
   

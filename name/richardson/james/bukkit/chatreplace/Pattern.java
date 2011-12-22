@@ -1,7 +1,7 @@
 /*******************************************************************************
  * Copyright (c) 2011 James Richardson.
  * 
- * ChatFormatter.java is part of ChatReplace.
+ * Pattern.java is part of ChatReplace.
  * 
  * ChatReplace is free software: you can redistribute it and/or modify it 
  * under the terms of the GNU General Public License as published by the Free 
@@ -15,14 +15,31 @@
  * You should have received a copy of the GNU General Public License 
  * along with ChatReplace.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package name.richardson.james.chatreplace;
+package name.richardson.james.bukkit.chatreplace;
 
-public interface ChatFormatter {
+import java.util.List;
+import java.util.regex.Matcher;
+
+public abstract class Pattern {
+
+    protected java.util.regex.Pattern pattern;
+    protected List<?> values;
   
-  abstract String format(String message);
+    public Pattern (String pattern, List<?> values) {
+      if (pattern == null || values == null) throw new IllegalArgumentException();
+      this.pattern = java.util.regex.Pattern.compile(pattern, java.util.regex.Pattern.CASE_INSENSITIVE);
+      this.values = values;
+    }
+
+    public boolean matches(String message) {
+      Matcher matcher = pattern.matcher(message);
+      return matcher.find();
+    }
   
-  abstract void reload();
-  
-  abstract int getPatternCount();
-  
+    protected abstract String getValue();
+    
+    public String getPattern() {
+      return this.pattern.toString();
+    }
+
 }
