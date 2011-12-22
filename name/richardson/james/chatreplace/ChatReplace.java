@@ -17,46 +17,52 @@
  ******************************************************************************/
 package name.richardson.james.chatreplace;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
-import name.richardson.james.chatreplace.append.AppendChatFormatter;
-import name.richardson.james.chatreplace.substitution.SubstitutionChatFormatter;
-import name.richardson.james.chatreplace.util.Logger;
-
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.Event;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.java.JavaPlugin;
+
+import name.richardson.james.bukkit.util.Logger;
+import name.richardson.james.bukkit.util.Plugin;
+import name.richardson.james.bukkit.util.command.CommandManager;
+import name.richardson.james.chatreplace.append.AppendChatFormatter;
+import name.richardson.james.chatreplace.append.AppendPatternConfiguration;
+import name.richardson.james.chatreplace.management.ReloadCommand;
+import name.richardson.james.chatreplace.management.StatusCommand;
+import name.richardson.james.chatreplace.substitution.SubstitutionChatFormatter;
+import name.richardson.james.chatreplace.substitution.SubstitutionPatternConfiguration;
 
 
-public class ChatReplace extends JavaPlugin {
+public class ChatReplace extends Plugin {
 
   private PluginManager pluginManager;
   private PluginDescriptionFile description;
-  private YamlConfiguration configuration;
+  private ChatReplaceConfiguration configuration;
   private PlayerListener playerListener;
   private Set<ChatFormatter> formatters;
+  private CommandManager commandManager;
   
   @Override
   public void onDisable() {
-    Logger.info(description.getName() + " is now disabled.");
+    logger.info(description.getName() + " is now disabled.");
   }
 
   @Override
   public void onEnable() {
+    logger.setPrefix("[ChatReplace] ");
     pluginManager = this.getServer().getPluginManager();
     description = this.getDescription();
     
     try {
-      configuration = loadConfiguration();
-      formatters = loadFormatters();
+      loadConfiguration();
+      loadFormatters();
       registerEvents();
+      registerCommands();
     } catch (IOException exception) {
-      Logger.severe("Unable to load a configuration file!");
+      logger.severe("Unable to load a configuration file!");
       this.pluginManager.disablePlugin(this);
     } finally {
       if (!this.pluginManager.isPluginEnabled(this)) {
@@ -64,40 +70,51 @@ public class ChatReplace extends JavaPlugin {
       }
     }
 
-    Logger.info(description.getFullName() + " is now enabled.");
+    logger.info(description.getFullName() + " is now enabled.");
   }
 
-  private Set<ChatFormatter> loadFormatters() throws IOException {
+  private void registerCommands() {
+    this.setPermission();
+    this.commandManager = new CommandManager(this.getDescription());
+    this.getCommand("cr").setExecutor(this.commandManager);
+    commandManager.registerCommand("reload", new ReloadCommand(this));
+    commandManager.registerCommand("status", new StatusCommand(this));
+  }
+
+  private void loadFormatters() throws IOException {
     Set<ChatFormatter> formatters = new HashSet<ChatFormatter>();
-    if (configuration.getBoolean("formatters.substituition")) {
-      File configurationFile = getConfigurationFile("substituition.yml");
-      formatters.add(new SubstitutionChatFormatter(configurationFile));
+    if (configuration.isSubstituting()) {
+      final SubstitutionPatternConfiguration configuration = new SubstitutionPatternConfiguration(this, "substituition.yml");
+      formatters.add(new SubstitutionChatFormatter(configuration));
     }
-    if (configuration.getBoolean("formatters.append")) {
-      File configurationFile = getConfigurationFile("append.yml");
-      formatters.add(new AppendChatFormatter(configurationFile));
+    if (configuration.isAppending()) {
+      final AppendPatternConfiguration configuration = new AppendPatternConfiguration(this, "append.yml");
+      formatters.add(new AppendChatFormatter(configuration));
     }
-    return formatters;
+    this.formatters = formatters;
   }
 
+  public int getTotalPatterns() {
+    int patterns = 0;
+    for (ChatFormatter formatter : formatters) {
+      patterns = patterns + formatter.getPatternCount();
+    }
+    return patterns;
+  }
+  
+  public void reload() throws IOException {
+    this.loadConfiguration();
+    this.loadFormatters();
+  }
+  
   private void registerEvents() {
     playerListener = new PlayerListener(formatters);
     pluginManager.registerEvent(Event.Type.PLAYER_CHAT, playerListener, Event.Priority.Low, this);
   }
 
-  protected YamlConfiguration loadConfiguration() throws IOException {
-    Logger.info("Loading configuration: config.yml.");
-    File configurationFile = getConfigurationFile("config.yml");
-    YamlConfiguration configuration = YamlConfiguration.loadConfiguration(configurationFile);
-    configuration.addDefault("formatters.substituition", true);
-    configuration.addDefault("formatters.append", true);
-    configuration.options().copyDefaults(true);
-    configuration.save(configurationFile);
-    return configuration;
-  }
-  
-  protected File getConfigurationFile(String name) {
-    return new File(this.getDataFolder() + File.separator + name);
+  private void loadConfiguration() throws IOException {
+    this.configuration = new ChatReplaceConfiguration(this);
+    if (this.configuration.getDebugging()) Logger.enableDebugging("chatreplace");
   }
   
 }

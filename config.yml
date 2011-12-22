@@ -1,0 +1,4 @@
+debugging: false
+formatters:
+  append: false
+  substitution: true

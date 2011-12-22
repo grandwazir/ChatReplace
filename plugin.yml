@@ -1,6 +1,11 @@
 name: ChatReplace
 main: name.richardson.james.chatreplace.ChatReplace
-version: 1.0.0
+version: 1.1.0
 author: James Richardson (grandwazir)
 description: Modify chat messages using regular expressions.
 website: https://github.com/grandwazir/ChatReplace
+commands:
+  cr:
+    description: 'ChatReplace root command'
+    alias: [chatreplace]
+    usage: '/chatreplace'

@@ -20,8 +20,6 @@ package name.richardson.james.chatreplace;
 import java.util.List;
 import java.util.regex.Matcher;
 
-import name.richardson.james.chatreplace.util.Logger;
-
 public abstract class Pattern {
 
     protected java.util.regex.Pattern pattern;
@@ -31,7 +29,6 @@ public abstract class Pattern {
       if (pattern == null || values == null) throw new IllegalArgumentException();
       this.pattern = java.util.regex.Pattern.compile(pattern, java.util.regex.Pattern.CASE_INSENSITIVE);
       this.values = values;
-      Logger.debug("Creating new pattern with pattern : " + getPattern() + " and values " + values.toString());
     }
 
     public boolean matches(String message) {

@@ -17,50 +17,47 @@
  ******************************************************************************/
 package name.richardson.james.chatreplace.substitution;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
+import name.richardson.james.bukkit.util.Logger;
 import name.richardson.james.chatreplace.ChatFormatter;
-import name.richardson.james.chatreplace.util.Logger;
 
-
-public class SubstitutionChatFormatter extends ChatFormatter {
+public class SubstitutionChatFormatter implements ChatFormatter {
   
-  private Set<SubstitutionPattern> patterns = new HashSet<SubstitutionPattern>();
+  private Set<SubstitutionPattern> patterns;
+  private final SubstitutionPatternConfiguration configuration;
+  private final Logger logger = new Logger(this.getClass());
   
-  public SubstitutionChatFormatter(File configurationFile) throws IOException {
-    super(configurationFile);
-    for (String node : configuration.getKeys(false)) {
-      String pattern = configuration.getString(node + ".pattern");
-      List<?> values = configuration.getStringList(node + ".replacements");
-      SubstitutionPattern newPattern = new SubstitutionPattern(pattern, values);
-      patterns.add(newPattern);
-    }
-    Logger.info(String.format("%d substitution pattern(s) loaded.", patterns.size()));
+  public SubstitutionChatFormatter(SubstitutionPatternConfiguration configuration) throws IOException {
+    this.configuration = configuration;
+    this.patterns = configuration.getPatterns();
+    logger.debug(String.format("%d substitution pattern(s) loaded.", patterns.size()));
   }
 
   @Override
-  protected void setConfigurationDefaults() throws IOException {
-    configuration.addDefault("example-pattern.pattern", "[hello]");
-    configuration.addDefault("example-pattern.replacements", Arrays.asList("bonjour", "gutentag"));
-    // configuration.options().copyDefaults(true);
-    configuration.save(configurationFile);
-  }
-
-  @Override
-  protected String format(String message) {
-    Logger.debug("formatting messsage: " + message);
+  public String format(String message) {
+    logger.debug("Formatting messsage: " + message);
     for (SubstitutionPattern pattern : patterns) {
       if (pattern.matches(message)) {
-        Logger.debug("match found for pattern: " + pattern.getPattern());
+        logger.debug("Match found for pattern: " + pattern.getPattern());
         message = message.replaceAll(pattern.getPattern(), pattern.getValue());
       }
     }
-    Logger.debug("formatted message: " + message);
+    logger.debug("Returning formatted message: " + message);
     return message;
   }
+
+  @Override
+  public void reload() {
+    patterns.clear();
+    this.configuration.load();
+    this.patterns = this.configuration.getPatterns();
+  }
+
+  @Override
+  public int getPatternCount() {
+    return this.patterns.size();
+  }
+  
 }

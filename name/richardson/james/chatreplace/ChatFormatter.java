@@ -17,29 +17,12 @@
  ******************************************************************************/
 package name.richardson.james.chatreplace;
 
-import java.io.File;
-import java.io.IOException;
-
-import name.richardson.james.chatreplace.util.Logger;
-
-import org.bukkit.configuration.file.YamlConfiguration;
-
-
-public abstract class ChatFormatter {
-
-  protected File configurationFile;
-  protected YamlConfiguration configuration;
+public interface ChatFormatter {
   
-  public ChatFormatter(File configurationFile) throws IOException {
-    this.configurationFile = configurationFile;
-    Logger.info("Loading configuration: " + this.configurationFile.getName());
-    this.configuration = YamlConfiguration.loadConfiguration(configurationFile);
-    setConfigurationDefaults();
-    configuration.save(configurationFile);
-  }
+  abstract String format(String message);
   
-  abstract protected void setConfigurationDefaults() throws IOException;
+  abstract void reload();
   
-  abstract protected String format(String message);
+  abstract int getPatternCount();
   
 }

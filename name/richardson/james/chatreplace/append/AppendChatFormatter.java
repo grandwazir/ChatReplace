@@ -17,45 +17,27 @@
  ******************************************************************************/
 package name.richardson.james.chatreplace.append;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
+import name.richardson.james.bukkit.util.Logger;
 import name.richardson.james.chatreplace.ChatFormatter;
-import name.richardson.james.chatreplace.util.Logger;
 
-
-public class AppendChatFormatter extends ChatFormatter {
+public class AppendChatFormatter implements ChatFormatter {
   
-  private Set<AppendPattern> patterns = new HashSet<AppendPattern>();
+  private Set<AppendPattern> patterns;
+  private final AppendPatternConfiguration configuration;
+  private final Logger logger = new Logger(this.getClass());
   
-  public AppendChatFormatter(File configurationFile) throws IOException {
-    super(configurationFile);
-    for (String node : configuration.getKeys(false)) {
-      String pattern = configuration.getString(node + ".pattern");
-      String appendAt = configuration.getString(node + ".append-location");
-      List<?> values = configuration.getStringList(node + ".replacements");
-      AppendPattern newPattern = new AppendPattern(pattern, values, appendAt);
-      patterns.add(newPattern);
-    }
-    Logger.info(String.format("%d append pattern(s) loaded.", patterns.size()));
+  public AppendChatFormatter(AppendPatternConfiguration configuration) throws IOException {
+    this.configuration = configuration;
+    this.patterns = configuration.getPatterns();
+    logger.info(String.format("%d append pattern(s) loaded.", patterns.size()));
   }
 
   @Override
-  protected void setConfigurationDefaults() throws IOException {
-    configuration.addDefault("example-pattern.pattern", "[hello]");
-    configuration.addDefault("example-pattern.append-location", "end");
-    configuration.addDefault("example-pattern.replacements", Arrays.asList("bonjour", "gutentag"));
-    // configuration.options().copyDefaults(true);
-    configuration.save(configurationFile);
-  }
-
-  @Override
-  protected String format(String message) {
-    Logger.debug("formatting messsage: " + message);
+  public String format(String message) {
+    logger.debug("Formatting messsage: " + message);
     for (AppendPattern pattern : patterns) {
       if (pattern.matches(message)) {
         if (pattern.getAppendLocation().equalsIgnoreCase("end")) {
@@ -63,10 +45,23 @@ public class AppendChatFormatter extends ChatFormatter {
         } else if (pattern.getAppendLocation().equalsIgnoreCase("start")) {
           message = pattern.getValue() + " " + message;
         }
-        Logger.debug("match found for pattern: " + pattern.getPattern());
+        logger.debug("Match found for pattern: " + pattern.getPattern());
       }
     }
-    Logger.debug("formatted message: " + message);
+    logger.debug("Returning formatted message: " + message);
     return message;
   }
+
+  @Override
+  public void reload() {
+    patterns.clear();
+    this.configuration.load();
+    this.patterns = this.configuration.getPatterns();
+  }
+  
+  @Override
+  public int getPatternCount() {
+    return this.patterns.size();
+  }
+  
 }
