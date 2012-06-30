@@ -1,21 +1,20 @@
 /*******************************************************************************
- * Copyright (c) 2011 James Richardson.
+ * Copyright (c) 2012 James Richardson.
  * 
  * ChatReplace.java is part of ChatReplace.
  * 
- * ChatReplace is free software: you can redistribute it and/or modify it
- * under the terms of the GNU General Public License as published by the Free
- * Software Foundation, either version 3 of the License, or (at your option)
- * any later version.
+ * ChatReplace is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
  * 
  * ChatReplace is distributed in the hope that it will be useful, but WITHOUT
- * ANY
- * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
  * 
- * You should have received a copy of the GNU General Public License
- * along with ChatReplace. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * ChatReplace. If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 package name.richardson.james.bukkit.chatreplace;
 
@@ -40,8 +39,10 @@ public class ChatReplace extends SkeletonPlugin {
   /** The configuration. */
   private ChatReplaceConfiguration configuration;
 
-  /* (non-Javadoc)
-   * @see name.richardson.james.bukkit.utilities.updater.Updatable#getArtifactID()
+  /*
+   * (non-Javadoc)
+   * @see
+   * name.richardson.james.bukkit.utilities.updater.Updatable#getArtifactID()
    */
   public String getArtifactID() {
     return "chat-replace";
@@ -49,7 +50,7 @@ public class ChatReplace extends SkeletonPlugin {
 
   /**
    * Gets the formatted pattern count.
-   *
+   * 
    * @return the formatted pattern count
    */
   public String getFormattedPatternCount() {
@@ -59,7 +60,8 @@ public class ChatReplace extends SkeletonPlugin {
     return this.getChoiceFormattedMessage("patterns-loaded", arguments, formats, limits);
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
    * @see name.richardson.james.bukkit.utilities.updater.Updatable#getGroupID()
    */
   public String getGroupID() {
@@ -68,7 +70,7 @@ public class ChatReplace extends SkeletonPlugin {
 
   /**
    * Gets the total patterns.
-   *
+   * 
    * @return the total patterns
    */
   public int getTotalPatterns() {
@@ -81,7 +83,7 @@ public class ChatReplace extends SkeletonPlugin {
 
   /**
    * Reload.
-   *
+   * 
    * @throws IOException Signals that an I/O exception has occurred.
    */
   public void reload() throws IOException {
@@ -91,7 +93,7 @@ public class ChatReplace extends SkeletonPlugin {
 
   /**
    * Load formatters.
-   *
+   * 
    * @throws IOException Signals that an I/O exception has occurred.
    */
   private void loadFormatters() throws IOException {
@@ -107,8 +109,11 @@ public class ChatReplace extends SkeletonPlugin {
     this.logger.debug(this.getFormattedPatternCount());
   }
 
-  /* (non-Javadoc)
-   * @see name.richardson.james.bukkit.utilities.plugin.SkeletonPlugin#loadConfiguration()
+  /*
+   * (non-Javadoc)
+   * @see
+   * name.richardson.james.bukkit.utilities.plugin.SkeletonPlugin#loadConfiguration
+   * ()
    */
   @Override
   protected void loadConfiguration() throws IOException {
@@ -116,8 +121,11 @@ public class ChatReplace extends SkeletonPlugin {
     this.loadFormatters();
   }
 
-  /* (non-Javadoc)
-   * @see name.richardson.james.bukkit.utilities.plugin.SkeletonPlugin#registerCommands()
+  /*
+   * (non-Javadoc)
+   * @see
+   * name.richardson.james.bukkit.utilities.plugin.SkeletonPlugin#registerCommands
+   * ()
    */
   @Override
   protected void registerCommands() {
@@ -126,8 +134,11 @@ public class ChatReplace extends SkeletonPlugin {
     commandManager.addCommand(new ReloadCommand(this));
   }
 
-  /* (non-Javadoc)
-   * @see name.richardson.james.bukkit.utilities.plugin.SkeletonPlugin#registerEvents()
+  /*
+   * (non-Javadoc)
+   * @see
+   * name.richardson.james.bukkit.utilities.plugin.SkeletonPlugin#registerEvents
+   * ()
    */
   @Override
   protected void registerEvents() {
