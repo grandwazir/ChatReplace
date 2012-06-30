@@ -1,5 +1,5 @@
 name: ChatReplace
-main: name.richardson.james.chatreplace.ChatReplace
+main: name.richardson.james.bukkit.chatreplace.ChatReplace
 version: ${project.version}
 author: James Richardson (grandwazir)
 description: Modify chat messages using regular expressions.
