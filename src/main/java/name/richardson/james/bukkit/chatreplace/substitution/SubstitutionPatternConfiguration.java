@@ -17,48 +17,53 @@ public class SubstitutionPatternConfiguration extends YAMLStorage {
 
   /**
    * Instantiates a new append pattern configuration.
-   *
+   * 
    * @param plugin the plugin
    * @param fileName the file name
    * @throws IOException Signals that an I/O exception has occurred.
    */
-  public SubstitutionPatternConfiguration(ChatReplace plugin, String fileName) throws IOException {
+  public SubstitutionPatternConfiguration(final ChatReplace plugin, final String fileName) throws IOException {
     super(plugin, fileName);
     this.setPatterns();
   }
-  
-  /* (non-Javadoc)
-   * @see name.richardson.james.bukkit.chatreplace.PatternConfiguration#setPatterns()
-   */
-  public void setPatterns() {
-    for (String node : configuration.getKeys(false)) {
-      String pattern = configuration.getString(node + ".pattern");
-      List<?> values = configuration.getStringList(node + ".replacements");
-      SubstitutionPattern newPattern = new SubstitutionPattern(pattern, values);
-      patterns.add(newPattern);
-    }
-  }
-  
-  /* (non-Javadoc)
-   * @see name.richardson.james.bukkit.chatreplace.PatternConfiguration#getPatterns()
+
+  /*
+   * (non-Javadoc)
+   * @see
+   * name.richardson.james.bukkit.chatreplace.PatternConfiguration#getPatterns()
    */
   public Set<SubstitutionPattern> getPatterns() {
-    return Collections.unmodifiableSet(patterns);
+    return Collections.unmodifiableSet(this.patterns);
   }
-  
+
   /**
    * Sets the defaults.
-   *
+   * 
    * @throws IOException Signals that an I/O exception has occurred.
    */
+  @Override
   public void setDefaults() throws IOException {
-    logger.debug(String.format("Apply default configuration."));
-    if (configuration.getKeys(false).isEmpty()) {
-      configuration.createSection("example-pattern");
-      configuration.getConfigurationSection("example-pattern").set("pattern", "[hello]");
-      configuration.getConfigurationSection("example-pattern").set("replacements", Arrays.asList("bonjour", "gutentag"));
+    this.logger.debug(String.format("Apply default configuration."));
+    if (this.configuration.getKeys(false).isEmpty()) {
+      this.configuration.createSection("example-pattern");
+      this.configuration.getConfigurationSection("example-pattern").set("pattern", "[hello]");
+      this.configuration.getConfigurationSection("example-pattern").set("replacements", Arrays.asList("bonjour", "gutentag"));
     }
     this.save();
   }
-  
+
+  /*
+   * (non-Javadoc)
+   * @see
+   * name.richardson.james.bukkit.chatreplace.PatternConfiguration#setPatterns()
+   */
+  public void setPatterns() {
+    for (final String node : this.configuration.getKeys(false)) {
+      final String pattern = this.configuration.getString(node + ".pattern");
+      final List<?> values = this.configuration.getStringList(node + ".replacements");
+      final SubstitutionPattern newPattern = new SubstitutionPattern(pattern, values);
+      this.patterns.add(newPattern);
+    }
+  }
+
 }

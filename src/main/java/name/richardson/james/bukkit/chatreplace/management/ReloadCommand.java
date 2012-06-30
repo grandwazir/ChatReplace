@@ -43,34 +43,32 @@ public class ReloadCommand extends PluginCommand {
 
   private final ChatReplace plugin;
 
-  public ReloadCommand(ChatReplace plugin) {
+  public ReloadCommand(final ChatReplace plugin) {
     super(plugin);
     this.plugin = plugin;
     this.registerPermissions();
   }
 
-  
-  private void registerPermissions() {
-    final String prefix = plugin.getDescription().getName().toLowerCase() + ".";
-    // create the base permission
-    Permission base = new Permission(prefix + this.getName(), plugin.getMessage("reloadcommand-permission-description"), PermissionDefault.OP);
-    base.addParent(plugin.getRootPermission(), true);
-    this.addPermission(base);
-  }
-
-  public void execute(CommandSender sender) throws CommandArgumentException, CommandPermissionException, name.richardson.james.bukkit.utilities.command.CommandUsageException {
+  public void execute(final CommandSender sender) throws CommandArgumentException, CommandPermissionException, name.richardson.james.bukkit.utilities.command.CommandUsageException {
     try {
-      plugin.reload();
-    } catch (IOException exception) {
-      Bukkit.getPluginManager().disablePlugin(plugin);
+      this.plugin.reload();
+    } catch (final IOException exception) {
+      Bukkit.getPluginManager().disablePlugin(this.plugin);
       throw new CommandUsageException(this.getMessage("panic"));
     }
-    sender.sendMessage(this.getSimpleFormattedMessage("reloadcommand-complete", plugin.getName()));
+    sender.sendMessage(this.getSimpleFormattedMessage("reloadcommand-complete", this.plugin.getName()));
   }
-  
 
-  public void parseArguments(String[] arguments, CommandSender sender) throws CommandArgumentException {
+  public void parseArguments(final String[] arguments, final CommandSender sender) throws CommandArgumentException {
     return;
+  }
+
+  private void registerPermissions() {
+    final String prefix = this.plugin.getDescription().getName().toLowerCase() + ".";
+    // create the base permission
+    final Permission base = new Permission(prefix + this.getName(), this.plugin.getMessage("reloadcommand-permission-description"), PermissionDefault.OP);
+    base.addParent(this.plugin.getRootPermission(), true);
+    this.addPermission(base);
   }
 
 }
