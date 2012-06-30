@@ -25,14 +25,28 @@ import name.richardson.james.bukkit.chatreplace.Pattern;
 
 public class SubstitutionPattern extends Pattern {
 
+  /**
+   * Instantiates a new substitution pattern.
+   *
+   * @param pattern the regular expression as a String
+   * @param values the values to use in case of a match
+   */
   public SubstitutionPattern (String pattern, List<?> values) throws PatternSyntaxException {
     super(pattern, values);
   }
 
+  /* (non-Javadoc)
+   * @see name.richardson.james.bukkit.chatreplace.Pattern#getValue()
+   */
   public String getValue() {
     return getRandomReplacement();
   }
   
+  /**
+   * Gets the random replacement.
+   *
+   * @return the random replacement
+   */
   private String getRandomReplacement() {
     Integer random = new Random().nextInt(values.size());
     return values.get(random).toString();

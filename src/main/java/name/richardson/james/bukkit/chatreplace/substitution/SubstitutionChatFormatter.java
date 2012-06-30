@@ -21,21 +21,34 @@ import java.io.IOException;
 import java.util.Set;
 
 import name.richardson.james.bukkit.chatreplace.ChatFormatter;
-import name.richardson.james.bukkit.util.Logger;
+import name.richardson.james.bukkit.utilities.internals.Logger;
 
 public class SubstitutionChatFormatter implements ChatFormatter {
   
-  private Set<SubstitutionPattern> patterns;
-  private final SubstitutionPatternConfiguration configuration;
-  private final Logger logger = new Logger(this.getClass());
+  /** The logger for this class. */
+  private static final Logger logger = new Logger(SubstitutionChatFormatter.class);
   
+  /** The patterns associated with this formatter */
+  private Set<SubstitutionPattern> patterns;
+  
+  /** The configuration from which the patterns were created. */
+  private final SubstitutionPatternConfiguration configuration;
+  
+  /**
+   * Instantiates a new append chat formatter.
+   *
+   * @param configuration the configuration from which the patterns are created.
+   * @throws IOException Signals that an I/O exception has occurred.
+   */
   public SubstitutionChatFormatter(SubstitutionPatternConfiguration configuration) throws IOException {
     this.configuration = configuration;
     this.patterns = configuration.getPatterns();
-    logger.debug(String.format("%d substitution pattern(s) loaded.", patterns.size()));
+    // logger.info(String.format("%d append pattern(s) loaded.", patterns.size()));
   }
 
-  @Override
+  /* (non-Javadoc)
+   * @see name.richardson.james.bukkit.chatreplace.ChatFormatter#format(java.lang.String)
+   */
   public String format(String message) {
     logger.debug("Formatting messsage: " + message);
     for (SubstitutionPattern pattern : patterns) {
@@ -48,16 +61,21 @@ public class SubstitutionChatFormatter implements ChatFormatter {
     return message;
   }
 
-  @Override
+
+  /* (non-Javadoc)
+   * @see name.richardson.james.bukkit.chatreplace.ChatFormatter#reload()
+   */
   public void reload() {
     patterns.clear();
     this.configuration.load();
     this.patterns = this.configuration.getPatterns();
   }
-
-  @Override
+  
+  /* (non-Javadoc)
+   * @see name.richardson.james.bukkit.chatreplace.ChatFormatter#getPatternCount()
+   */
   public int getPatternCount() {
     return this.patterns.size();
   }
-  
+
 }
