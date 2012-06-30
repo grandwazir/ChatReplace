@@ -76,6 +76,13 @@ public class ChatReplace extends SkeletonPlugin {
     PlayerChatListener listener = new PlayerChatListener(Collections.unmodifiableSet(this.formatters));
     this.getServer().getPluginManager().registerEvents(listener, this);
   }
+  
+  public String getFormattedPatternCount() {
+    Object[] arguments = {this.getTotalPatterns()};
+    double[] limits = {0, 1, 2};
+    String[] formats = {this.getMessage("no-patterns"), this.getMessage("one-pattern"), this.getMessage("many-patterns")};
+    return this.getChoiceFormattedMessage("patterns-loaded", arguments, formats, limits);
+  }
 
   protected void loadConfiguration() throws IOException {
     this.configuration = new ChatReplaceConfiguration(this);

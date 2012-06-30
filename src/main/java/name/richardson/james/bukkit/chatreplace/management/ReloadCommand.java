@@ -22,16 +22,19 @@ package name.richardson.james.bukkit.chatreplace.management;
 import java.io.IOException;
 import java.util.Map;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
 
 import name.richardson.james.bukkit.chatreplace.ChatReplace;
-import name.richardson.james.bukkit.util.command.CommandUsageException;
-import name.richardson.james.bukkit.util.command.PlayerCommand;
+import name.richardson.james.bukkit.utilities.command.CommandArgumentException;
+import name.richardson.james.bukkit.utilities.command.CommandPermissionException;
+import name.richardson.james.bukkit.utilities.command.CommandUsageException;
+import name.richardson.james.bukkit.utilities.command.PluginCommand;
 
-public class ReloadCommand extends PlayerCommand {
+public class ReloadCommand extends PluginCommand {
 
   public static final String NAME = "reload";
   public static final String DESCRIPTION = "Reload patterns and configuration.";
@@ -43,18 +46,33 @@ public class ReloadCommand extends PlayerCommand {
   private final ChatReplace plugin;
 
   public ReloadCommand(ChatReplace plugin) {
-    super(plugin, NAME, DESCRIPTION, USAGE, PERMISSION_DESCRIPTION, PERMISSION);
+    super(plugin);
     this.plugin = plugin;
+    this.registerPermissions();
   }
+
   
-  @Override
-  public void execute(CommandSender sender, Map<String, Object> arguments) throws CommandUsageException {
+  private void registerPermissions() {
+    final String prefix = plugin.getDescription().getName().toLowerCase() + ".";
+    // create the base permission
+    Permission base = new Permission(prefix + this.getName(), plugin.getMessage("reloadcommand-permission-description"), PermissionDefault.OP);
+    base.addParent(plugin.getRootPermission(), true);
+    this.addPermission(base);
+  }
+
+  public void execute(CommandSender sender) throws CommandArgumentException, CommandPermissionException, name.richardson.james.bukkit.utilities.command.CommandUsageException {
     try {
       plugin.reload();
     } catch (IOException exception) {
-      throw new CommandUsageException("Unable to reload configuration!");
+      Bukkit.getPluginManager().disablePlugin(plugin);
+      throw new CommandUsageException(this.getMessage("panic"));
     }
-    sender.sendMessage(ChatColor.GREEN + "ChatReplace has been reloaded.");
+    sender.sendMessage(this.getSimpleFormattedMessage("reloadcommand-complete", plugin.getName()));
+  }
+  
+
+  public void parseArguments(String[] arguments, CommandSender sender) throws CommandArgumentException {
+    return;
   }
 
 }
