@@ -47,7 +47,7 @@ public class ChatReplace extends SkeletonPlugin {
   }
 
   private void loadFormatters() throws IOException {
-    Set<ChatFormatter> formatters = new HashSet<ChatFormatter>();
+    this.formatters.clear();
     if (configuration.isSubstituting()) {
       final SubstitutionPatternConfiguration configuration = new SubstitutionPatternConfiguration(this, "substituition.yml");
       formatters.add(new SubstitutionChatFormatter(configuration));
@@ -56,7 +56,6 @@ public class ChatReplace extends SkeletonPlugin {
       final AppendPatternConfiguration configuration = new AppendPatternConfiguration(this, "append.yml");
       formatters.add(new AppendChatFormatter(configuration));
     }
-    this.formatters = formatters;
   }
 
   public int getTotalPatterns() {
