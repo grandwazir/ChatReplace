@@ -106,7 +106,7 @@ public class ChatReplace extends SkeletonPlugin {
       final AppendPatternConfiguration configuration = new AppendPatternConfiguration(this, "append.yml");
       this.formatters.add(new AppendChatFormatter(configuration));
     }
-    this.logger.debug(this.getFormattedPatternCount());
+    this.logger.info(this.getFormattedPatternCount());
   }
 
   /*
