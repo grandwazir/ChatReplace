@@ -19,18 +19,12 @@ package name.richardson.james.bukkit.chatreplace;
 
 import java.io.IOException;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
-
-import org.bukkit.event.Event;
-import org.bukkit.plugin.PluginDescriptionFile;
-import org.bukkit.plugin.PluginManager;
 
 import name.richardson.james.bukkit.chatreplace.append.AppendChatFormatter;
 import name.richardson.james.bukkit.chatreplace.append.AppendPatternConfiguration;
 import name.richardson.james.bukkit.chatreplace.management.ReloadCommand;
-import name.richardson.james.bukkit.chatreplace.management.StatusCommand;
 import name.richardson.james.bukkit.chatreplace.substitution.SubstitutionChatFormatter;
 import name.richardson.james.bukkit.chatreplace.substitution.SubstitutionPatternConfiguration;
 import name.richardson.james.bukkit.utilities.command.CommandManager;
@@ -45,6 +39,7 @@ public class ChatReplace extends SkeletonPlugin {
   protected void registerCommands() {
     CommandManager commandManager = new CommandManager(this);
     this.getCommand("cr").setExecutor(commandManager);
+    commandManager.addCommand(new ReloadCommand(this));
   }
 
   private void loadFormatters() throws IOException {
@@ -57,6 +52,7 @@ public class ChatReplace extends SkeletonPlugin {
       final AppendPatternConfiguration configuration = new AppendPatternConfiguration(this, "append.yml");
       formatters.add(new AppendChatFormatter(configuration));
     }
+    logger.debug(this.getFormattedPatternCount());
   }
 
   public int getTotalPatterns() {
