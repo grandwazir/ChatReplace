@@ -2,17 +2,12 @@ package name.richardson.james.bukkit.chatreplace;
 
 import java.io.IOException;
 
-import name.richardson.james.bukkit.util.Plugin;
-import name.richardson.james.bukkit.util.configuration.AbstractConfiguration;
+import name.richardson.james.bukkit.utilities.configuration.PluginConfiguration;
 
-public class ChatReplaceConfiguration extends AbstractConfiguration {
+public class ChatReplaceConfiguration extends PluginConfiguration {
   
-  public ChatReplaceConfiguration(Plugin plugin) throws IOException {
-    super(plugin, "config.yml");
-  }
-
-  public boolean getDebugging() {
-    return configuration.getBoolean("debugging");
+  public ChatReplaceConfiguration(ChatReplace plugin) throws IOException {
+    super(plugin);
   }
   
   public boolean isAppending() {

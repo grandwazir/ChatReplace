@@ -19,6 +19,7 @@ package name.richardson.james.bukkit.chatreplace;
 
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.bukkit.event.Event;
@@ -31,54 +32,18 @@ import name.richardson.james.bukkit.chatreplace.management.ReloadCommand;
 import name.richardson.james.bukkit.chatreplace.management.StatusCommand;
 import name.richardson.james.bukkit.chatreplace.substitution.SubstitutionChatFormatter;
 import name.richardson.james.bukkit.chatreplace.substitution.SubstitutionPatternConfiguration;
-import name.richardson.james.bukkit.util.Logger;
-import name.richardson.james.bukkit.util.Plugin;
-import name.richardson.james.bukkit.util.command.CommandManager;
+import name.richardson.james.bukkit.utilities.command.CommandManager;
+import name.richardson.james.bukkit.utilities.plugin.SkeletonPlugin;
 
+public class ChatReplace extends SkeletonPlugin {
 
-public class ChatReplace extends Plugin {
-
-  private PluginManager pluginManager;
-  private PluginDescriptionFile description;
-  private ChatReplaceConfiguration configuration;
-  private PlayerListener playerListener;
-  private Set<ChatFormatter> formatters;
-  private CommandManager commandManager;
+  private final Set<ChatFormatter> formatters = new LinkedHashSet<ChatFormatter>();
   
-  @Override
-  public void onDisable() {
-    logger.info(description.getName() + " is now disabled.");
-  }
+  private ChatReplaceConfiguration configuration;
 
-  @Override
-  public void onEnable() {
-    logger.setPrefix("[ChatReplace] ");
-    pluginManager = this.getServer().getPluginManager();
-    description = this.getDescription();
-    
-    try {
-      loadConfiguration();
-      loadFormatters();
-      registerEvents();
-      registerCommands();
-    } catch (IOException exception) {
-      logger.severe("Unable to load a configuration file!");
-      this.pluginManager.disablePlugin(this);
-    } finally {
-      if (!this.pluginManager.isPluginEnabled(this)) {
-        return;
-      }
-    }
-
-    logger.info(description.getFullName() + " is now enabled.");
-  }
-
-  private void registerCommands() {
-    this.setPermission();
-    this.commandManager = new CommandManager(this.getDescription());
-    this.getCommand("cr").setExecutor(this.commandManager);
-    commandManager.registerCommand("reload", new ReloadCommand(this));
-    commandManager.registerCommand("status", new StatusCommand(this));
+  protected void registerCommands() {
+    CommandManager commandManager = new CommandManager(this);
+    this.getCommand("cr").setExecutor(commandManager);
   }
 
   private void loadFormatters() throws IOException {
@@ -107,14 +72,23 @@ public class ChatReplace extends Plugin {
     this.loadFormatters();
   }
   
-  private void registerEvents() {
+  protected void registerEvents() {
     playerListener = new PlayerListener(formatters);
     pluginManager.registerEvent(Event.Type.PLAYER_CHAT, playerListener, Event.Priority.Low, this);
   }
 
-  private void loadConfiguration() throws IOException {
+  protected void loadConfiguration() throws IOException {
     this.configuration = new ChatReplaceConfiguration(this);
-    if (this.configuration.getDebugging()) Logger.enableDebugging("chatreplace");
+    this.loadFormatters();
+  }
+
+  
+  public String getGroupID() {
+    return "name.richardson.james.bukkit";
+  }
+
+  public String getArtifactID() {
+    return "chat-replace";
   }
   
 }
