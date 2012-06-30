@@ -64,7 +64,7 @@ public class SubstitutionPatternConfiguration extends YAMLStorage {
     this.logger.debug(String.format("Apply default configuration."));
     if (this.configuration.getKeys(false).isEmpty()) {
       this.configuration.createSection("example-pattern");
-      this.configuration.getConfigurationSection("example-pattern").set("pattern", "[hello]");
+      this.configuration.getConfigurationSection("example-pattern").set("pattern", "(hello)");
       this.configuration.getConfigurationSection("example-pattern").set("replacements", Arrays.asList("bonjour", "gutentag"));
     }
     this.save();

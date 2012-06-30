@@ -1,5 +1,6 @@
 Changelog for ChatReplace (v1.2.0-SNAPSHOT)
 
+2012-06-30 13:15:28 +0100    change pattern count output to info from debug (James Richardson)
 2012-06-30 13:14:29 +0100    update package name in plugin.yml (James Richardson)
 2012-06-30 13:13:02 +0100    added and altered configuration files (James Richardson)
 2012-06-30 13:10:29 +0100    copyright notices (James Richardson)
