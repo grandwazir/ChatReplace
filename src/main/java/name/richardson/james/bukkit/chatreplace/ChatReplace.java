@@ -34,14 +34,24 @@ import name.richardson.james.bukkit.utilities.plugin.SkeletonPlugin;
 
 public class ChatReplace extends SkeletonPlugin {
 
+  /** The chat formatters. */
   private final Set<ChatFormatter> formatters = new LinkedHashSet<ChatFormatter>();
 
+  /** The configuration. */
   private ChatReplaceConfiguration configuration;
 
+  /* (non-Javadoc)
+   * @see name.richardson.james.bukkit.utilities.updater.Updatable#getArtifactID()
+   */
   public String getArtifactID() {
     return "chat-replace";
   }
 
+  /**
+   * Gets the formatted pattern count.
+   *
+   * @return the formatted pattern count
+   */
   public String getFormattedPatternCount() {
     final Object[] arguments = { this.getTotalPatterns() };
     final double[] limits = { 0, 1, 2 };
@@ -49,10 +59,18 @@ public class ChatReplace extends SkeletonPlugin {
     return this.getChoiceFormattedMessage("patterns-loaded", arguments, formats, limits);
   }
 
+  /* (non-Javadoc)
+   * @see name.richardson.james.bukkit.utilities.updater.Updatable#getGroupID()
+   */
   public String getGroupID() {
     return "name.richardson.james.bukkit";
   }
 
+  /**
+   * Gets the total patterns.
+   *
+   * @return the total patterns
+   */
   public int getTotalPatterns() {
     int patterns = 0;
     for (final ChatFormatter formatter : this.formatters) {
@@ -61,11 +79,21 @@ public class ChatReplace extends SkeletonPlugin {
     return patterns;
   }
 
+  /**
+   * Reload.
+   *
+   * @throws IOException Signals that an I/O exception has occurred.
+   */
   public void reload() throws IOException {
     this.loadConfiguration();
     this.loadFormatters();
   }
 
+  /**
+   * Load formatters.
+   *
+   * @throws IOException Signals that an I/O exception has occurred.
+   */
   private void loadFormatters() throws IOException {
     this.formatters.clear();
     if (this.configuration.isSubstituting()) {
@@ -79,12 +107,18 @@ public class ChatReplace extends SkeletonPlugin {
     this.logger.debug(this.getFormattedPatternCount());
   }
 
+  /* (non-Javadoc)
+   * @see name.richardson.james.bukkit.utilities.plugin.SkeletonPlugin#loadConfiguration()
+   */
   @Override
   protected void loadConfiguration() throws IOException {
     this.configuration = new ChatReplaceConfiguration(this);
     this.loadFormatters();
   }
 
+  /* (non-Javadoc)
+   * @see name.richardson.james.bukkit.utilities.plugin.SkeletonPlugin#registerCommands()
+   */
   @Override
   protected void registerCommands() {
     final CommandManager commandManager = new CommandManager(this);
@@ -92,6 +126,9 @@ public class ChatReplace extends SkeletonPlugin {
     commandManager.addCommand(new ReloadCommand(this));
   }
 
+  /* (non-Javadoc)
+   * @see name.richardson.james.bukkit.utilities.plugin.SkeletonPlugin#registerEvents()
+   */
   @Override
   protected void registerEvents() {
     final PlayerChatListener listener = new PlayerChatListener(Collections.unmodifiableSet(this.formatters));
