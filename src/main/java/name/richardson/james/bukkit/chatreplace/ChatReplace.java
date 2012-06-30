@@ -18,6 +18,7 @@
 package name.richardson.james.bukkit.chatreplace;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -72,8 +73,8 @@ public class ChatReplace extends SkeletonPlugin {
   }
   
   protected void registerEvents() {
-    playerListener = new PlayerListener(formatters);
-    pluginManager.registerEvent(Event.Type.PLAYER_CHAT, playerListener, Event.Priority.Low, this);
+    PlayerChatListener listener = new PlayerChatListener(Collections.unmodifiableSet(this.formatters));
+    this.getServer().getPluginManager().registerEvents(listener, this);
   }
 
   protected void loadConfiguration() throws IOException {
