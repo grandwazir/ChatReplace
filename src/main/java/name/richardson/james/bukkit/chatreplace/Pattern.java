@@ -22,22 +22,47 @@ import java.util.regex.Matcher;
 
 public abstract class Pattern {
 
+    /** The java regex pattern. */
     protected java.util.regex.Pattern pattern;
+    
+    /** The values used to replace any matches. */
     protected List<?> values;
   
+    /**
+     * Instantiates a new pattern.
+     *
+     * @param pattern the regular expression as a String
+     * @param values the values to use in case of a match
+     */
     public Pattern (String pattern, List<?> values) {
       if (pattern == null || values == null) throw new IllegalArgumentException();
       this.pattern = java.util.regex.Pattern.compile(pattern, java.util.regex.Pattern.CASE_INSENSITIVE);
       this.values = values;
     }
 
+    /**
+     * Check if a given String matches this pattern.
+     *
+     * @param message the String to match
+     * @return true if successful. false if no match was found.
+     */
     public boolean matches(String message) {
       Matcher matcher = pattern.matcher(message);
       return matcher.find();
     }
   
+    /**
+     * Gets the value to use when the pattern is matched. This is intended to be overridden by sub-classes.
+     *
+     * @return the value
+     */
     protected abstract String getValue();
     
+    /**
+     * Gets a string representation of this regular expression.
+     *
+     * @return the pattern
+     */
     public String getPattern() {
       return this.pattern.toString();
     }

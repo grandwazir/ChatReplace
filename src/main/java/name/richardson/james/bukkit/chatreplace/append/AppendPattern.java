@@ -25,24 +25,50 @@ import name.richardson.james.bukkit.chatreplace.Pattern;
 
 public class AppendPattern extends Pattern {
 
-  private String appendLocation;
-
-  public AppendPattern (String pattern, List<?> values, String appendAt) throws PatternSyntaxException {
+  public enum Location {
+    START,
+    END
+  }
+  
+  /** The location to append any alterations. */
+  private Location location;
+  
+  /**
+   * Instantiates a new pattern.
+   *
+   * @param pattern the regular expression as a String
+   * @param values the values to use in case of a match
+   * @param appendAt the location to append any matches
+   */
+  public AppendPattern (String pattern, List<?> values, Location appendAt) throws PatternSyntaxException {
     super(pattern, values);
-    this.appendLocation = appendAt;
+    this.location = appendAt;
   }
 
+  /* (non-Javadoc)
+   * @see name.richardson.james.bukkit.chatreplace.Pattern#getValue()
+   */
   public String getValue() {
     return getRandomReplacement();
   }
   
+  /**
+   * Gets a random replacement from the value list.
+   *
+   * @return the random replacement
+   */
   private String getRandomReplacement() {
     Integer random = new Random().nextInt(values.size());
     return values.get(random).toString();
   }
 
-  public String getAppendLocation() {
-    return this.appendLocation;
+  /**
+   * Gets the location to append any matches.
+   *
+   * @return the append location
+   */
+  public Location getLocation() {
+    return this.location;
   }
   
 }

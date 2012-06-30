@@ -19,10 +19,24 @@ package name.richardson.james.bukkit.chatreplace;
 
 public interface ChatFormatter {
   
+  /**
+   * Format a given chat message and return any alterations.
+   *
+   * @param message the chat message to format
+   * @return the string to return
+   */
   abstract String format(String message);
   
+  /**
+   * Reload patterns from the relevant configuration file.
+   */
   abstract void reload();
   
+  /**
+   * Gets the total number of pattern attached to this formatter.
+   *
+   * @return the pattern count
+   */
   abstract int getPatternCount();
   
 }
