@@ -63,9 +63,11 @@ public class AppendChatFormatter implements ChatFormatter {
         case END:
           formattedMessage.append(" ");
           formattedMessage.append(pattern.getValue());
+          break;
         case START:
           formattedMessage.insert(0, " ");
           formattedMessage.insert(0, pattern.getValue());
+          break;
         }
       }
     }

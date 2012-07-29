@@ -60,14 +60,6 @@ public class ChatReplace extends SkeletonPlugin {
     return this.getChoiceFormattedMessage("patterns-loaded", arguments, formats, limits);
   }
 
-  /*
-   * (non-Javadoc)
-   * @see name.richardson.james.bukkit.utilities.updater.Updatable#getGroupID()
-   */
-  public String getGroupID() {
-    return "name.richardson.james.bukkit";
-  }
-
   /**
    * Gets the total patterns.
    * 
@@ -146,4 +138,8 @@ public class ChatReplace extends SkeletonPlugin {
     this.getServer().getPluginManager().registerEvents(listener, this);
   }
 
+  protected void setupMetrics() throws IOException {
+    if (this.configuration.isCollectingStats()) new MetricsListener(this);
+  }
+  
 }
