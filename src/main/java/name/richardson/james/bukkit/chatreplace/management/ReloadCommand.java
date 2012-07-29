@@ -55,7 +55,7 @@ public class ReloadCommand extends PluginCommand {
       Bukkit.getPluginManager().disablePlugin(this.plugin);
       throw new CommandUsageException(this.getMessage("panic"));
     }
-    sender.sendMessage(this.getSimpleFormattedMessage("reloadcommand-complete", this.plugin.getName()));
+    sender.sendMessage(this.getSimpleFormattedMessage("complete", this.plugin.getName()));
   }
 
   public void parseArguments(final String[] arguments, final CommandSender sender) throws CommandArgumentException {
@@ -65,7 +65,7 @@ public class ReloadCommand extends PluginCommand {
   private void registerPermissions() {
     final String prefix = this.plugin.getDescription().getName().toLowerCase() + ".";
     // create the base permission
-    final Permission base = new Permission(prefix + this.getName(), this.plugin.getMessage("reloadcommand-permission-description"), PermissionDefault.OP);
+    final Permission base = new Permission(prefix + this.getName(), this.getMessage("permission-description"), PermissionDefault.OP);
     base.addParent(this.plugin.getRootPermission(), true);
     this.addPermission(base);
   }
