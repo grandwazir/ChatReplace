@@ -148,12 +148,8 @@ public class ChatReplace extends AbstractPlugin {
    */
   @Override
   protected void registerListeners() {
-    final PlayerChatListener listener = new PlayerChatListener(Collections.unmodifiableSet(this.formatters));
+    final PlayerChatListener listener = new PlayerChatListener(this.formatters);
     this.getServer().getPluginManager().registerEvents(listener, this);
-  }
-
-  protected void setupMetrics() throws IOException {
-    if (this.configuration.isCollectingStats()) new MetricsListener(this);
   }
   
 }

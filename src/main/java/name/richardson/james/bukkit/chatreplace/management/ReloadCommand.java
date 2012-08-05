@@ -20,54 +20,34 @@ package name.richardson.james.bukkit.chatreplace.management;
 
 import java.io.IOException;
 
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
-import org.bukkit.permissions.Permission;
-import org.bukkit.permissions.PermissionDefault;
 
 import name.richardson.james.bukkit.chatreplace.ChatReplace;
+import name.richardson.james.bukkit.utilities.command.AbstractCommand;
 import name.richardson.james.bukkit.utilities.command.CommandArgumentException;
 import name.richardson.james.bukkit.utilities.command.CommandPermissionException;
-import name.richardson.james.bukkit.utilities.command.CommandUsageException;
-import name.richardson.james.bukkit.utilities.command.PluginCommand;
 
-public class ReloadCommand extends PluginCommand {
+public class ReloadCommand extends AbstractCommand {
 
-  public static final String NAME = "reload";
-  public static final String DESCRIPTION = "Reload patterns and configuration.";
-  public static final String PERMISSION_DESCRIPTION = "Allow users to reload patterns and configuration.";
-  public static final String USAGE = "";
-
-  public static final Permission PERMISSION = new Permission("chatreplace.reload", PERMISSION_DESCRIPTION, PermissionDefault.OP);
-
-  private final ChatReplace plugin;
+  /** The plugin */
+  private ChatReplace plugin;
 
   public ReloadCommand(final ChatReplace plugin) {
-    super(plugin);
+    super(plugin, false);
     this.plugin = plugin;
-    this.registerPermissions();
   }
 
   public void execute(final CommandSender sender) throws CommandArgumentException, CommandPermissionException, name.richardson.james.bukkit.utilities.command.CommandUsageException {
     try {
       this.plugin.reload();
     } catch (final IOException exception) {
-      Bukkit.getPluginManager().disablePlugin(this.plugin);
-      throw new CommandUsageException(this.getMessage("panic"));
+      exception.printStackTrace();
     }
-    sender.sendMessage(this.getSimpleFormattedMessage("complete", this.plugin.getName()));
+    sender.sendMessage(this.getLocalisation().getMessage(this, "complete"));
   }
 
   public void parseArguments(final String[] arguments, final CommandSender sender) throws CommandArgumentException {
     return;
-  }
-
-  private void registerPermissions() {
-    final String prefix = this.plugin.getDescription().getName().toLowerCase() + ".";
-    // create the base permission
-    final Permission base = new Permission(prefix + this.getName(), this.getMessage("permission-description"), PermissionDefault.OP);
-    base.addParent(this.plugin.getRootPermission(), true);
-    this.addPermission(base);
   }
 
 }
