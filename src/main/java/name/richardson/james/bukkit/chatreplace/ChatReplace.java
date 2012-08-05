@@ -19,15 +19,13 @@
 package name.richardson.james.bukkit.chatreplace;
 
 import java.io.IOException;
-import java.util.Collections;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.logging.Handler;
+import java.util.logging.Level;
 
 import name.richardson.james.bukkit.chatreplace.append.AppendChatFormatter;
 import name.richardson.james.bukkit.chatreplace.append.AppendPatternConfiguration;
-import name.richardson.james.bukkit.chatreplace.management.ReloadCommand;
 import name.richardson.james.bukkit.chatreplace.substitution.SubstitutionChatFormatter;
 import name.richardson.james.bukkit.chatreplace.substitution.SubstitutionPatternConfiguration;
 import name.richardson.james.bukkit.utilities.command.CommandManager;
@@ -103,14 +101,13 @@ public class ChatReplace extends AbstractPlugin {
   private void loadFormatters() throws IOException {
     this.formatters.clear();
     if (this.configuration.isSubstituting()) {
-      final SubstitutionPatternConfiguration configuration = new SubstitutionPatternConfiguration(this, "substituition.yml");
+      final SubstitutionPatternConfiguration configuration = new SubstitutionPatternConfiguration(this);
       this.formatters.add(new SubstitutionChatFormatter(configuration));
     }
     if (this.configuration.isAppending()) {
-      final AppendPatternConfiguration configuration = new AppendPatternConfiguration(this, "append.yml");
+      final AppendPatternConfiguration configuration = new AppendPatternConfiguration(this);
       this.formatters.add(new AppendChatFormatter(configuration));
     }
-    this.getLogger().info(this.getFormattedPatternCount());
   }
 
   /*
@@ -122,6 +119,13 @@ public class ChatReplace extends AbstractPlugin {
   @Override
   protected void loadConfiguration() throws IOException {
     super.loadConfiguration();
+    for (final Handler handler : this.getLogger().getParent().getHandlers()) {
+      handler.setLevel(Level.ALL);
+    }
+    this.getCustomLogger().setDebugging(true);
+    for (final Handler handler : this.getLogger().getParent().getHandlers()) {
+      handler.setLevel(Level.ALL);
+    }
     this.configuration = new ChatReplaceConfiguration(this);
     this.loadFormatters();
   }

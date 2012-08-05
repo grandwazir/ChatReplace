@@ -33,6 +33,8 @@ import name.richardson.james.bukkit.utilities.persistence.AbstractYAMLStorage;
 
 public class AppendPatternConfiguration extends AbstractYAMLStorage implements PatternConfiguration {
 
+  public static final String FILE_NAME = "substitution.yml";
+  
   /** The patterns created from this configuration file. */
   private final List<AppendPattern> patterns = new ArrayList<AppendPattern>();
 
@@ -43,8 +45,9 @@ public class AppendPatternConfiguration extends AbstractYAMLStorage implements P
    * @param fileName the file name
    * @throws IOException Signals that an I/O exception has occurred.
    */
-  public AppendPatternConfiguration(final ChatReplace plugin, final String fileName) throws IOException {
-    super(plugin, fileName);
+  public AppendPatternConfiguration(final ChatReplace plugin) throws IOException {
+    super(plugin, FILE_NAME);
+    this.setDefaultPatterns();
     this.setPatterns();
   }
 
@@ -56,15 +59,8 @@ public class AppendPatternConfiguration extends AbstractYAMLStorage implements P
   public List<AppendPattern> getPatterns() {
     return Collections.unmodifiableList(this.patterns);
   }
-
-  /**
-   * Sets the defaults values for this configuration file.
-   * 
-   * @throws IOException Signals that an I/O exception has occurred.
-   */
-  @Override
-  protected void setDefaults(final InputStream resource) throws IOException {
-    super.setDefaults(resource);
+  
+  private void setDefaultPatterns() {
     if (this.getConfiguration().getKeys(false).isEmpty()) {
       this.getConfiguration().createSection("example-pattern");
       this.getConfiguration().getConfigurationSection("example-pattern").set("pattern", "[hello]");
