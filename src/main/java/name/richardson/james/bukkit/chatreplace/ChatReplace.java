@@ -108,6 +108,7 @@ public class ChatReplace extends AbstractPlugin {
       final AppendPatternConfiguration configuration = new AppendPatternConfiguration(this);
       this.formatters.add(new AppendChatFormatter(configuration));
     }
+    this.getCustomLogger().info(this, "patterns-loaded", this.getFormattedPatternCount());
   }
 
   /*
