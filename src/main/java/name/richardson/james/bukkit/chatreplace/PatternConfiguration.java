@@ -18,7 +18,7 @@
  ******************************************************************************/
 package name.richardson.james.bukkit.chatreplace;
 
-import java.util.Set;
+import java.util.List;
 
 public interface PatternConfiguration {
 
@@ -27,7 +27,7 @@ public interface PatternConfiguration {
    * 
    * @return the patterns
    */
-  public Set<? extends Pattern> getPatterns();
+  public List<? extends AbstractPattern> getPatterns();
 
   /**
    * Create the patterns from this configuration file.

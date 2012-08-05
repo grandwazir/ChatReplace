@@ -18,23 +18,25 @@
  ******************************************************************************/
 package name.richardson.james.bukkit.chatreplace;
 
+import java.util.List;
 import java.util.Set;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerChatEvent;
 
 public class PlayerChatListener implements Listener {
 
-  private final Set<ChatFormatter> formatters;
+  private final List<ChatFormatter> formatters;
 
-  public PlayerChatListener(final Set<ChatFormatter> formatters) {
+  public PlayerChatListener(final List<ChatFormatter> formatters) {
     this.formatters = formatters;
   }
 
   @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
-  public void onPlayerChat(final PlayerChatEvent event) {
+  public void onPlayerChat(final AsyncPlayerChatEvent event) {
     String message = event.getMessage();
     for (final ChatFormatter formatter : this.formatters) {
       message = formatter.format(message);

@@ -21,7 +21,9 @@ package name.richardson.james.bukkit.chatreplace;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import name.richardson.james.bukkit.chatreplace.append.AppendChatFormatter;
 import name.richardson.james.bukkit.chatreplace.append.AppendPatternConfiguration;
@@ -35,7 +37,7 @@ import name.richardson.james.bukkit.utilities.plugin.AbstractPlugin;
 public class ChatReplace extends AbstractPlugin {
 
   /** The chat formatters. */
-  private final Set<ChatFormatter> formatters = new LinkedHashSet<ChatFormatter>();
+  private final List<ChatFormatter> formatters = new CopyOnWriteArrayList<ChatFormatter>();
 
   /** The ChoiceFormatter for number of patterns loaded */
   private ChoiceFormatter choiceFormatter;

@@ -20,6 +20,7 @@ package name.richardson.james.bukkit.chatreplace.substitution;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashSet;
@@ -33,7 +34,7 @@ import name.richardson.james.bukkit.utilities.persistence.AbstractYAMLStorage;
 public class SubstitutionPatternConfiguration extends AbstractYAMLStorage implements PatternConfiguration {
 
   /** The patterns created from this configuration file. */
-  private final Set<SubstitutionPattern> patterns = new LinkedHashSet<SubstitutionPattern>();
+  private final List<SubstitutionPattern> patterns = new ArrayList<SubstitutionPattern>();
 
   /**
    * Instantiates a new append pattern configuration.
@@ -52,8 +53,8 @@ public class SubstitutionPatternConfiguration extends AbstractYAMLStorage implem
    * @see
    * name.richardson.james.bukkit.chatreplace.PatternConfiguration#getPatterns()
    */
-  public Set<SubstitutionPattern> getPatterns() {
-    return Collections.unmodifiableSet(this.patterns);
+  public List<SubstitutionPattern> getPatterns() {
+    return Collections.unmodifiableList((this.patterns));
   }
 
   /**

@@ -19,6 +19,7 @@
 package name.richardson.james.bukkit.chatreplace.substitution;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Set;
 
 import name.richardson.james.bukkit.chatreplace.ChatFormatter;
@@ -26,7 +27,7 @@ import name.richardson.james.bukkit.chatreplace.ChatFormatter;
 public class SubstitutionChatFormatter implements ChatFormatter {
 
   /** The patterns associated with this formatter */
-  private Set<SubstitutionPattern> patterns;
+  private List<SubstitutionPattern> patterns;
 
   /** The configuration from which the patterns were created. */
   private final SubstitutionPatternConfiguration configuration;

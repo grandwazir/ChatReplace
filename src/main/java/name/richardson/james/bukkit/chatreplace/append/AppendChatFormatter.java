@@ -19,6 +19,7 @@
 package name.richardson.james.bukkit.chatreplace.append;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Set;
 
 import name.richardson.james.bukkit.chatreplace.ChatFormatter;
@@ -26,7 +27,7 @@ import name.richardson.james.bukkit.chatreplace.ChatFormatter;
 public class AppendChatFormatter implements ChatFormatter {
 
   /** The patterns associated with this formatter */
-  private Set<AppendPattern> patterns;
+  private List<AppendPattern> patterns;
 
   /** The configuration from which the patterns were created. */
   private final AppendPatternConfiguration configuration;

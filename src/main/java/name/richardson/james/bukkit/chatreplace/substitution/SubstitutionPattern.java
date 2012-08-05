@@ -22,9 +22,9 @@ import java.util.List;
 import java.util.Random;
 import java.util.regex.PatternSyntaxException;
 
-import name.richardson.james.bukkit.chatreplace.Pattern;
+import name.richardson.james.bukkit.chatreplace.AbstractPattern;
 
-public class SubstitutionPattern extends Pattern {
+public class SubstitutionPattern extends AbstractPattern {
 
   /**
    * Instantiates a new substitution pattern.

@@ -21,7 +21,7 @@ package name.richardson.james.bukkit.chatreplace;
 import java.util.List;
 import java.util.regex.Matcher;
 
-public abstract class Pattern {
+public abstract class AbstractPattern {
 
   /** The java regex pattern. */
   protected java.util.regex.Pattern pattern;
@@ -35,7 +35,7 @@ public abstract class Pattern {
    * @param pattern the regular expression as a String
    * @param values the values to use in case of a match
    */
-  public Pattern(final String pattern, final List<?> values) {
+  public AbstractPattern(final String pattern, final List<?> values) {
     if ((pattern == null) || (values == null)) {
       throw new IllegalArgumentException();
     }

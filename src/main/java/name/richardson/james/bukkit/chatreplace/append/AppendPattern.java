@@ -22,9 +22,9 @@ import java.util.List;
 import java.util.Random;
 import java.util.regex.PatternSyntaxException;
 
-import name.richardson.james.bukkit.chatreplace.Pattern;
+import name.richardson.james.bukkit.chatreplace.AbstractPattern;
 
-public class AppendPattern extends Pattern {
+public class AppendPattern extends AbstractPattern {
 
   public enum Location {
     START,
