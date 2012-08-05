@@ -21,6 +21,8 @@ package name.richardson.james.bukkit.chatreplace;
 import java.util.List;
 import java.util.regex.Matcher;
 
+import org.bukkit.permissions.Permission;
+
 public abstract class AbstractPattern {
 
   /** The java regex pattern. */
@@ -29,18 +31,21 @@ public abstract class AbstractPattern {
   /** The values used to replace any matches. */
   protected List<?> values;
 
+  private final String permissionName;
+
   /**
    * Instantiates a new pattern.
    * 
    * @param pattern the regular expression as a String
    * @param values the values to use in case of a match
    */
-  public AbstractPattern(final String pattern, final List<?> values) {
+  public AbstractPattern(final String pattern, final List<?> values, final String permissionName) {
     if ((pattern == null) || (values == null)) {
       throw new IllegalArgumentException();
     }
     this.pattern = java.util.regex.Pattern.compile(pattern, java.util.regex.Pattern.CASE_INSENSITIVE);
     this.values = values;
+    this.permissionName = permissionName;
   }
 
   /**
@@ -52,6 +57,10 @@ public abstract class AbstractPattern {
     return this.pattern.toString();
   }
 
+  public String getPermissionName() {
+    return this.permissionName;
+  }
+  
   /**
    * Check if a given String matches this pattern.
    * 
@@ -69,6 +78,6 @@ public abstract class AbstractPattern {
    * 
    * @return the value
    */
-  protected abstract String getValue();
+  public abstract String getValue();
 
 }

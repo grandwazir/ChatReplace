@@ -19,13 +19,12 @@
 package name.richardson.james.bukkit.chatreplace;
 
 import java.util.List;
-import java.util.Set;
 
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerChatEvent;
 
 public class PlayerChatListener implements Listener {
 
@@ -38,8 +37,9 @@ public class PlayerChatListener implements Listener {
   @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
   public void onPlayerChat(final AsyncPlayerChatEvent event) {
     String message = event.getMessage();
+    Player player = event.getPlayer();
     for (final ChatFormatter formatter : this.formatters) {
-      message = formatter.format(message);
+      message = formatter.format(player, message);
     }
     event.setMessage(message);
   }

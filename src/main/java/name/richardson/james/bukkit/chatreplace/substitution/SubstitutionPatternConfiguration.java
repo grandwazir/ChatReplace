@@ -76,9 +76,10 @@ public class SubstitutionPatternConfiguration extends AbstractYAMLStorage implem
    */
   public void setPatterns() {
     for (final String node : this.getConfiguration().getKeys(false)) {
+      final String permission = this.getConfiguration().getString(node + ".permission");
       final String pattern = this.getConfiguration().getString(node + ".pattern");
       final List<?> values = this.getConfiguration().getStringList(node + ".replacements");
-      final SubstitutionPattern newPattern = new SubstitutionPattern(pattern, values);
+      final SubstitutionPattern newPattern = new SubstitutionPattern(pattern, values, permission);
       this.patterns.add(newPattern);
     }
   }

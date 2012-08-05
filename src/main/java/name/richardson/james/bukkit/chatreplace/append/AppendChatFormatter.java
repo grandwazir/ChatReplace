@@ -22,27 +22,17 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
+import org.bukkit.permissions.Permissible;
+
+import name.richardson.james.bukkit.chatreplace.AbstractChatFormatter;
+import name.richardson.james.bukkit.chatreplace.AbstractPattern;
 import name.richardson.james.bukkit.chatreplace.ChatFormatter;
+import name.richardson.james.bukkit.utilities.permissions.PermissionManager;
 
-public class AppendChatFormatter implements ChatFormatter {
+public class AppendChatFormatter extends AbstractChatFormatter {
 
-  /** The patterns associated with this formatter */
-  private List<AppendPattern> patterns;
-
-  /** The configuration from which the patterns were created. */
-  private final AppendPatternConfiguration configuration;
-
-  /**
-   * Instantiates a new append chat formatter.
-   * 
-   * @param configuration the configuration from which the patterns are created.
-   * @throws IOException Signals that an I/O exception has occurred.
-   */
-  public AppendChatFormatter(final AppendPatternConfiguration configuration) throws IOException {
-    this.configuration = configuration;
-    this.patterns = configuration.getPatterns();
-    // logger.info(String.format("%d append pattern(s) loaded.",
-    // patterns.size()));
+  public AppendChatFormatter(final AppendPatternConfiguration configuration, PermissionManager permissions) throws IOException {
+    super(configuration, permissions);
   }
 
   /*
@@ -51,33 +41,26 @@ public class AppendChatFormatter implements ChatFormatter {
    * name.richardson.james.bukkit.chatreplace.ChatFormatter#format(java.lang
    * .String)
    */
-  public String format(String message) {
+  public String format(Permissible player, String message) {
     final StringBuilder formattedMessage = new StringBuilder(message);
-    for (final AppendPattern pattern : this.patterns) {
+    for (final AbstractPattern pattern : this.getPatterns()) {
+      if (!this.testPermission(pattern, player)) continue;
+      AppendPattern appendPattern = (AppendPattern) pattern;
       if (pattern.matches(message)) {
-        switch (pattern.getLocation()) {
+        switch (appendPattern.getLocation()) {
         case END:
           formattedMessage.append(" ");
-          formattedMessage.append(pattern.getValue());
+          formattedMessage.append(appendPattern.getValue());
           break;
         case START:
           formattedMessage.insert(0, " ");
-          formattedMessage.insert(0, pattern.getValue());
+          formattedMessage.insert(0, appendPattern.getValue());
           break;
         }
       }
     }
     message = formattedMessage.toString();
     return message;
-  }
-
-  /*
-   * (non-Javadoc)
-   * @see
-   * name.richardson.james.bukkit.chatreplace.ChatFormatter#getPatternCount()
-   */
-  public int getPatternCount() {
-    return this.patterns.size();
   }
 
 }

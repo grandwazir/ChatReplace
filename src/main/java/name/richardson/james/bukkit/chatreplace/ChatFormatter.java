@@ -18,6 +18,8 @@
  ******************************************************************************/
 package name.richardson.james.bukkit.chatreplace;
 
+import org.bukkit.permissions.Permissible;
+
 public interface ChatFormatter {
 
   /**
@@ -26,13 +28,13 @@ public interface ChatFormatter {
    * @param message the chat message to format
    * @return the string to return
    */
-  abstract String format(String message);
+  public String format(Permissible player, String message);
 
   /**
    * Gets the total number of pattern attached to this formatter.
    * 
    * @return the pattern count
    */
-  abstract int getPatternCount();
+  public int getPatternCount();
 
 }

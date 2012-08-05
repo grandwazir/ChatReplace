@@ -77,10 +77,11 @@ public class AppendPatternConfiguration extends AbstractYAMLStorage implements P
    */
   public void setPatterns() {
     for (final String node : this.getConfiguration().getKeys(false)) {
+      final String permission = this.getConfiguration().getString(node + ".permission");
       final String pattern = this.getConfiguration().getString(node + ".pattern");
       final String appendAt = this.getConfiguration().getString(node + ".append-location");
       final List<?> values = this.getConfiguration().getStringList(node + ".replacements");
-      final AppendPattern newPattern = new AppendPattern(pattern, values, AppendPattern.Location.valueOf(appendAt.toUpperCase()));
+      final AppendPattern newPattern = new AppendPattern(pattern, values, permission, AppendPattern.Location.valueOf(appendAt.toUpperCase()));
       this.patterns.add(newPattern);
     }
   }

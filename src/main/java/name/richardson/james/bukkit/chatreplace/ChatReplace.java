@@ -29,16 +29,12 @@ import name.richardson.james.bukkit.chatreplace.append.AppendPatternConfiguratio
 import name.richardson.james.bukkit.chatreplace.substitution.SubstitutionChatFormatter;
 import name.richardson.james.bukkit.chatreplace.substitution.SubstitutionPatternConfiguration;
 import name.richardson.james.bukkit.utilities.command.CommandManager;
-import name.richardson.james.bukkit.utilities.formatters.ChoiceFormatter;
 import name.richardson.james.bukkit.utilities.plugin.AbstractPlugin;
 
 public class ChatReplace extends AbstractPlugin {
 
   /** The chat formatters. */
   private final List<ChatFormatter> formatters = new CopyOnWriteArrayList<ChatFormatter>();
-
-  /** The ChoiceFormatter for number of patterns loaded */
-  private ChoiceFormatter choiceFormatter;
   
   /** The configuration. */
   private ChatReplaceConfiguration configuration;
@@ -50,25 +46,6 @@ public class ChatReplace extends AbstractPlugin {
    */
   public String getArtifactID() {
     return "chat-replace";
-  }
-
-  /**
-   * Gets the formatted pattern count.
-   * 
-   * @return the formatted pattern count
-   */
-  public String getFormattedPatternCount() {
-    if (choiceFormatter == null) {
-      this.choiceFormatter = new ChoiceFormatter(this.getLocalisation());
-      this.choiceFormatter.setFormats(
-        this.getLocalisation().getMessage(this, "no-patterns"),
-        this.getLocalisation().getMessage(this, "one-pattern"),
-        this.getLocalisation().getMessage(this, "many-patterns")
-      );
-      this.choiceFormatter.setLimits(0,1,2);
-    }
-    this.choiceFormatter.setArguments(this.getTotalPatterns());
-    return this.choiceFormatter.getMessage();
   }
 
   /**
@@ -102,13 +79,13 @@ public class ChatReplace extends AbstractPlugin {
     this.formatters.clear();
     if (this.configuration.isSubstituting()) {
       final SubstitutionPatternConfiguration configuration = new SubstitutionPatternConfiguration(this);
-      this.formatters.add(new SubstitutionChatFormatter(configuration));
+      this.formatters.add(new SubstitutionChatFormatter(configuration, this.getPermissionManager()));
     }
     if (this.configuration.isAppending()) {
       final AppendPatternConfiguration configuration = new AppendPatternConfiguration(this);
-      this.formatters.add(new AppendChatFormatter(configuration));
+      this.formatters.add(new AppendChatFormatter(configuration, this.getPermissionManager()));
     }
-    this.getCustomLogger().info(this, "patterns-loaded", this.getFormattedPatternCount());
+    this.getCustomLogger().info(this, "patterns-loaded", this.getTotalPatterns());
   }
 
   /*
@@ -120,13 +97,7 @@ public class ChatReplace extends AbstractPlugin {
   @Override
   protected void loadConfiguration() throws IOException {
     super.loadConfiguration();
-    for (final Handler handler : this.getLogger().getParent().getHandlers()) {
-      handler.setLevel(Level.ALL);
-    }
     this.getCustomLogger().setDebugging(true);
-    for (final Handler handler : this.getLogger().getParent().getHandlers()) {
-      handler.setLevel(Level.ALL);
-    }
     this.configuration = new ChatReplaceConfiguration(this);
     this.loadFormatters();
   }

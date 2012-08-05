@@ -41,8 +41,8 @@ public class AppendPattern extends AbstractPattern {
    * @param values the values to use in case of a match
    * @param appendAt the location to append any matches
    */
-  public AppendPattern(final String pattern, final List<?> values, final Location appendAt) throws PatternSyntaxException {
-    super(pattern, values);
+  public AppendPattern(final String pattern, final List<?> values, String permissionName, final Location appendAt) throws PatternSyntaxException {
+    super(pattern, values, permissionName);
     this.location = appendAt;
   }
 
