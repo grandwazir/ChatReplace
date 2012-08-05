@@ -28,6 +28,7 @@ import name.richardson.james.bukkit.chatreplace.substitution.SubstitutionChatFor
 import name.richardson.james.bukkit.chatreplace.substitution.SubstitutionPatternConfiguration;
 import name.richardson.james.bukkit.utilities.command.CommandManager;
 import name.richardson.james.bukkit.utilities.plugin.AbstractPlugin;
+import name.richardson.james.bukkit.chatreplace.management.ReloadCommand;
 
 public class ChatReplace extends AbstractPlugin {
 
@@ -92,7 +93,7 @@ public class ChatReplace extends AbstractPlugin {
   protected void registerCommands() {
     final CommandManager commandManager = new CommandManager(this);
     this.getCommand("cr").setExecutor(commandManager);
-    // commandManager.addCommand(new ReloadCommand(this));
+    commandManager.addCommand(new ReloadCommand(this));
   }
 
   /*
