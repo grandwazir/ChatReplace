@@ -134,7 +134,7 @@ public class ChatReplace extends AbstractPlugin {
   protected void registerCommands() {
     final CommandManager commandManager = new CommandManager(this);
     this.getCommand("cr").setExecutor(commandManager);
-    commandManager.addCommand(new ReloadCommand(this));
+    // commandManager.addCommand(new ReloadCommand(this));
   }
   
 
