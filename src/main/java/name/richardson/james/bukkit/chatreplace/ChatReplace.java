@@ -29,13 +29,17 @@ import name.richardson.james.bukkit.chatreplace.management.ReloadCommand;
 import name.richardson.james.bukkit.chatreplace.substitution.SubstitutionChatFormatter;
 import name.richardson.james.bukkit.chatreplace.substitution.SubstitutionPatternConfiguration;
 import name.richardson.james.bukkit.utilities.command.CommandManager;
-import name.richardson.james.bukkit.utilities.plugin.SkeletonPlugin;
+import name.richardson.james.bukkit.utilities.formatters.ChoiceFormatter;
+import name.richardson.james.bukkit.utilities.plugin.AbstractPlugin;
 
-public class ChatReplace extends SkeletonPlugin {
+public class ChatReplace extends AbstractPlugin {
 
   /** The chat formatters. */
   private final Set<ChatFormatter> formatters = new LinkedHashSet<ChatFormatter>();
 
+  /** The ChoiceFormatter for number of patterns loaded */
+  private ChoiceFormatter choiceFormatter;
+  
   /** The configuration. */
   private ChatReplaceConfiguration configuration;
 
@@ -54,10 +58,17 @@ public class ChatReplace extends SkeletonPlugin {
    * @return the formatted pattern count
    */
   public String getFormattedPatternCount() {
-    final Object[] arguments = { this.getTotalPatterns() };
-    final double[] limits = { 0, 1, 2 };
-    final String[] formats = { this.getMessage("no-patterns"), this.getMessage("one-pattern"), this.getMessage("many-patterns") };
-    return this.getChoiceFormattedMessage("patterns-loaded", arguments, formats, limits);
+    if (choiceFormatter == null) {
+      this.choiceFormatter = new ChoiceFormatter(this.getLocalisation());
+      this.choiceFormatter.setFormats(
+        this.getLocalisation().getMessage(this, "no-patterns"),
+        this.getLocalisation().getMessage(this, "one-pattern"),
+        this.getLocalisation().getMessage(this, "many-patterns")
+      );
+      this.choiceFormatter.setLimits(0,1,2);
+    }
+    this.choiceFormatter.setArguments(this.getTotalPatterns());
+    return this.choiceFormatter.getMessage();
   }
 
   /**
@@ -80,7 +91,6 @@ public class ChatReplace extends SkeletonPlugin {
    */
   public void reload() throws IOException {
     this.loadConfiguration();
-    this.loadFormatters();
   }
 
   /**
@@ -98,7 +108,7 @@ public class ChatReplace extends SkeletonPlugin {
       final AppendPatternConfiguration configuration = new AppendPatternConfiguration(this, "append.yml");
       this.formatters.add(new AppendChatFormatter(configuration));
     }
-    this.logger.info(this.getFormattedPatternCount());
+    this.getLogger().info(this.getFormattedPatternCount());
   }
 
   /*
@@ -109,6 +119,7 @@ public class ChatReplace extends SkeletonPlugin {
    */
   @Override
   protected void loadConfiguration() throws IOException {
+    super.loadConfiguration();
     this.configuration = new ChatReplaceConfiguration(this);
     this.loadFormatters();
   }
@@ -125,6 +136,7 @@ public class ChatReplace extends SkeletonPlugin {
     this.getCommand("cr").setExecutor(commandManager);
     commandManager.addCommand(new ReloadCommand(this));
   }
+  
 
   /*
    * (non-Javadoc)
@@ -133,7 +145,7 @@ public class ChatReplace extends SkeletonPlugin {
    * ()
    */
   @Override
-  protected void registerEvents() {
+  protected void registerListeners() {
     final PlayerChatListener listener = new PlayerChatListener(Collections.unmodifiableSet(this.formatters));
     this.getServer().getPluginManager().registerEvents(listener, this);
   }

@@ -22,7 +22,6 @@ import java.io.IOException;
 import java.util.Set;
 
 import name.richardson.james.bukkit.chatreplace.ChatFormatter;
-import name.richardson.james.bukkit.utilities.internals.Logger;
 
 public class AppendChatFormatter implements ChatFormatter {
 
@@ -31,9 +30,6 @@ public class AppendChatFormatter implements ChatFormatter {
 
   /** The configuration from which the patterns were created. */
   private final AppendPatternConfiguration configuration;
-
-  /** The logger for this class. */
-  private final Logger logger = new Logger(this.getClass());
 
   /**
    * Instantiates a new append chat formatter.
@@ -56,7 +52,6 @@ public class AppendChatFormatter implements ChatFormatter {
    */
   public String format(String message) {
     final StringBuilder formattedMessage = new StringBuilder(message);
-    this.logger.debug("Formatting messsage: " + message);
     for (final AppendPattern pattern : this.patterns) {
       if (pattern.matches(message)) {
         switch (pattern.getLocation()) {
@@ -72,7 +67,6 @@ public class AppendChatFormatter implements ChatFormatter {
       }
     }
     message = formattedMessage.toString();
-    this.logger.debug("Returning formatted message: " + message);
     return message;
   }
 
@@ -83,16 +77,6 @@ public class AppendChatFormatter implements ChatFormatter {
    */
   public int getPatternCount() {
     return this.patterns.size();
-  }
-
-  /*
-   * (non-Javadoc)
-   * @see name.richardson.james.bukkit.chatreplace.ChatFormatter#reload()
-   */
-  public void reload() {
-    this.patterns.clear();
-    this.configuration.load();
-    this.patterns = this.configuration.getPatterns();
   }
 
 }

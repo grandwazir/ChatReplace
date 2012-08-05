@@ -29,11 +29,11 @@ public class ChatReplaceConfiguration extends PluginConfiguration {
   }
 
   public boolean isAppending() {
-    return this.configuration.getBoolean("formatters.append");
+    return this.getConfiguration().getBoolean("formatters.append", false);
   }
 
   public boolean isSubstituting() {
-    return this.configuration.getBoolean("formatters.substitution");
+    return this.getConfiguration().getBoolean("formatters.substitution", true);
   }
 
 }

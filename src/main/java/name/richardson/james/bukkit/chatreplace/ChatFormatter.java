@@ -35,9 +35,4 @@ public interface ChatFormatter {
    */
   abstract int getPatternCount();
 
-  /**
-   * Reload patterns from the relevant configuration file.
-   */
-  abstract void reload();
-
 }

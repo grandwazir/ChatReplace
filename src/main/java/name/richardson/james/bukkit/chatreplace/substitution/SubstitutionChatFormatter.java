@@ -22,12 +22,8 @@ import java.io.IOException;
 import java.util.Set;
 
 import name.richardson.james.bukkit.chatreplace.ChatFormatter;
-import name.richardson.james.bukkit.utilities.internals.Logger;
 
 public class SubstitutionChatFormatter implements ChatFormatter {
-
-  /** The logger for this class. */
-  private static final Logger logger = new Logger(SubstitutionChatFormatter.class);
 
   /** The patterns associated with this formatter */
   private Set<SubstitutionPattern> patterns;
@@ -55,14 +51,11 @@ public class SubstitutionChatFormatter implements ChatFormatter {
    * .String)
    */
   public String format(String message) {
-    logger.debug("Formatting messsage: " + message);
     for (final SubstitutionPattern pattern : this.patterns) {
       if (pattern.matches(message)) {
-        logger.debug("Match found for pattern: " + pattern.getPattern());
         message = message.replaceAll(pattern.getPattern(), pattern.getValue());
       }
     }
-    logger.debug("Returning formatted message: " + message);
     return message;
   }
 
@@ -73,16 +66,6 @@ public class SubstitutionChatFormatter implements ChatFormatter {
    */
   public int getPatternCount() {
     return this.patterns.size();
-  }
-
-  /*
-   * (non-Javadoc)
-   * @see name.richardson.james.bukkit.chatreplace.ChatFormatter#reload()
-   */
-  public void reload() {
-    this.patterns.clear();
-    this.configuration.load();
-    this.patterns = this.configuration.getPatterns();
   }
 
 }

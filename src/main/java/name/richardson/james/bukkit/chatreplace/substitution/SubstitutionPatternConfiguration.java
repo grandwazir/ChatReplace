@@ -19,6 +19,7 @@
 package name.richardson.james.bukkit.chatreplace.substitution;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashSet;
@@ -26,9 +27,10 @@ import java.util.List;
 import java.util.Set;
 
 import name.richardson.james.bukkit.chatreplace.ChatReplace;
-import name.richardson.james.bukkit.utilities.persistence.YAMLStorage;
+import name.richardson.james.bukkit.chatreplace.PatternConfiguration;
+import name.richardson.james.bukkit.utilities.persistence.AbstractYAMLStorage;
 
-public class SubstitutionPatternConfiguration extends YAMLStorage {
+public class SubstitutionPatternConfiguration extends AbstractYAMLStorage implements PatternConfiguration {
 
   /** The patterns created from this configuration file. */
   private final Set<SubstitutionPattern> patterns = new LinkedHashSet<SubstitutionPattern>();
@@ -60,12 +62,12 @@ public class SubstitutionPatternConfiguration extends YAMLStorage {
    * @throws IOException Signals that an I/O exception has occurred.
    */
   @Override
-  public void setDefaults() throws IOException {
-    this.logger.debug(String.format("Apply default configuration."));
-    if (this.configuration.getKeys(false).isEmpty()) {
-      this.configuration.createSection("example-pattern");
-      this.configuration.getConfigurationSection("example-pattern").set("pattern", "(hello)");
-      this.configuration.getConfigurationSection("example-pattern").set("replacements", Arrays.asList("bonjour", "gutentag"));
+  protected void setDefaults(final InputStream resource) throws IOException {
+    super.setDefaults(resource);
+    if (this.getConfiguration().getKeys(false).isEmpty()) {
+      this.getConfiguration().createSection("example-pattern");
+      this.getConfiguration().getConfigurationSection("example-pattern").set("pattern", "(hello)");
+      this.getConfiguration().getConfigurationSection("example-pattern").set("replacements", Arrays.asList("bonjour", "gutentag"));
     }
     this.save();
   }
@@ -76,9 +78,9 @@ public class SubstitutionPatternConfiguration extends YAMLStorage {
    * name.richardson.james.bukkit.chatreplace.PatternConfiguration#setPatterns()
    */
   public void setPatterns() {
-    for (final String node : this.configuration.getKeys(false)) {
-      final String pattern = this.configuration.getString(node + ".pattern");
-      final List<?> values = this.configuration.getStringList(node + ".replacements");
+    for (final String node : this.getConfiguration().getKeys(false)) {
+      final String pattern = this.getConfiguration().getString(node + ".pattern");
+      final List<?> values = this.getConfiguration().getStringList(node + ".replacements");
       final SubstitutionPattern newPattern = new SubstitutionPattern(pattern, values);
       this.patterns.add(newPattern);
     }
