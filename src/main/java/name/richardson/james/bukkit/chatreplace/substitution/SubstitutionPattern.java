@@ -32,7 +32,7 @@ public class SubstitutionPattern extends AbstractPattern {
    * @param pattern the regular expression as a String
    * @param values the values to use in case of a match
    */
-  public SubstitutionPattern(final String pattern, final List<?> values, String permissionName) throws PatternSyntaxException {
+  public SubstitutionPattern(final String pattern, final List<?> values, final String permissionName) throws PatternSyntaxException {
     super(pattern, values, permissionName);
   }
 

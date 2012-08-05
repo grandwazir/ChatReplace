@@ -21,8 +21,6 @@ package name.richardson.james.bukkit.chatreplace;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.logging.Handler;
-import java.util.logging.Level;
 
 import name.richardson.james.bukkit.chatreplace.append.AppendChatFormatter;
 import name.richardson.james.bukkit.chatreplace.append.AppendPatternConfiguration;
@@ -33,11 +31,11 @@ import name.richardson.james.bukkit.utilities.plugin.AbstractPlugin;
 
 public class ChatReplace extends AbstractPlugin {
 
-  /** The chat formatters. */
-  private final List<ChatFormatter> formatters = new CopyOnWriteArrayList<ChatFormatter>();
-  
   /** The configuration. */
   private ChatReplaceConfiguration configuration;
+
+  /** The chat formatters. */
+  private final List<ChatFormatter> formatters = new CopyOnWriteArrayList<ChatFormatter>();
 
   /*
    * (non-Javadoc)
@@ -70,24 +68,6 @@ public class ChatReplace extends AbstractPlugin {
     this.loadConfiguration();
   }
 
-  /**
-   * Load formatters.
-   * 
-   * @throws IOException Signals that an I/O exception has occurred.
-   */
-  private void loadFormatters() throws IOException {
-    this.formatters.clear();
-    if (this.configuration.isSubstituting()) {
-      final SubstitutionPatternConfiguration configuration = new SubstitutionPatternConfiguration(this);
-      this.formatters.add(new SubstitutionChatFormatter(configuration, this.getPermissionManager()));
-    }
-    if (this.configuration.isAppending()) {
-      final AppendPatternConfiguration configuration = new AppendPatternConfiguration(this);
-      this.formatters.add(new AppendChatFormatter(configuration, this.getPermissionManager()));
-    }
-    this.getCustomLogger().info(this, "patterns-loaded", this.getTotalPatterns());
-  }
-
   /*
    * (non-Javadoc)
    * @see
@@ -114,7 +94,6 @@ public class ChatReplace extends AbstractPlugin {
     this.getCommand("cr").setExecutor(commandManager);
     // commandManager.addCommand(new ReloadCommand(this));
   }
-  
 
   /*
    * (non-Javadoc)
@@ -127,5 +106,23 @@ public class ChatReplace extends AbstractPlugin {
     final PlayerChatListener listener = new PlayerChatListener(this.formatters);
     this.getServer().getPluginManager().registerEvents(listener, this);
   }
-  
+
+  /**
+   * Load formatters.
+   * 
+   * @throws IOException Signals that an I/O exception has occurred.
+   */
+  private void loadFormatters() throws IOException {
+    this.formatters.clear();
+    if (this.configuration.isSubstituting()) {
+      final SubstitutionPatternConfiguration configuration = new SubstitutionPatternConfiguration(this);
+      this.formatters.add(new SubstitutionChatFormatter(configuration, this.getPermissionManager()));
+    }
+    if (this.configuration.isAppending()) {
+      final AppendPatternConfiguration configuration = new AppendPatternConfiguration(this);
+      this.formatters.add(new AppendChatFormatter(configuration, this.getPermissionManager()));
+    }
+    this.getCustomLogger().info(this, "patterns-loaded", this.getTotalPatterns());
+  }
+
 }

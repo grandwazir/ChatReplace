@@ -30,7 +30,7 @@ import name.richardson.james.bukkit.utilities.command.CommandPermissionException
 public class ReloadCommand extends AbstractCommand {
 
   /** The plugin */
-  private ChatReplace plugin;
+  private final ChatReplace plugin;
 
   public ReloadCommand(final ChatReplace plugin) {
     super(plugin, false);

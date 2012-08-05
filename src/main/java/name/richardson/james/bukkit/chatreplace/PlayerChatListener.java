@@ -37,7 +37,7 @@ public class PlayerChatListener implements Listener {
   @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
   public void onPlayerChat(final AsyncPlayerChatEvent event) {
     String message = event.getMessage();
-    Player player = event.getPlayer();
+    final Player player = event.getPlayer();
     for (final ChatFormatter formatter : this.formatters) {
       message = formatter.format(player, message);
     }

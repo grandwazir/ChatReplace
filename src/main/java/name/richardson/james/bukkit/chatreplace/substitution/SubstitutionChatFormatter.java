@@ -19,20 +19,16 @@
 package name.richardson.james.bukkit.chatreplace.substitution;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Set;
 
 import org.bukkit.permissions.Permissible;
 
 import name.richardson.james.bukkit.chatreplace.AbstractChatFormatter;
 import name.richardson.james.bukkit.chatreplace.AbstractPattern;
-import name.richardson.james.bukkit.chatreplace.ChatFormatter;
 import name.richardson.james.bukkit.utilities.permissions.PermissionManager;
 
 public class SubstitutionChatFormatter extends AbstractChatFormatter {
 
-
-  public SubstitutionChatFormatter(final SubstitutionPatternConfiguration configuration, PermissionManager permissions) throws IOException {
+  public SubstitutionChatFormatter(final SubstitutionPatternConfiguration configuration, final PermissionManager permissions) throws IOException {
     super(configuration, permissions);
   }
 
@@ -42,14 +38,16 @@ public class SubstitutionChatFormatter extends AbstractChatFormatter {
    * name.richardson.james.bukkit.chatreplace.ChatFormatter#format(java.lang
    * .String)
    */
-  public String format(Permissible player, String message) {
+  public String format(final Permissible player, String message) {
     for (final AbstractPattern pattern : this.getPatterns()) {
-      if (!this.testPermission(pattern, player)) continue;
+      if (!this.testPermission(pattern, player)) {
+        continue;
+      }
       if (pattern.matches(message)) {
         message = message.replaceAll(pattern.getPattern(), pattern.getValue());
       }
     }
     return message;
   }
-  
+
 }

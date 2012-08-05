@@ -19,13 +19,10 @@
 package name.richardson.james.bukkit.chatreplace.append;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 import name.richardson.james.bukkit.chatreplace.ChatReplace;
 import name.richardson.james.bukkit.chatreplace.PatternConfiguration;
@@ -34,7 +31,7 @@ import name.richardson.james.bukkit.utilities.persistence.AbstractYAMLStorage;
 public class AppendPatternConfiguration extends AbstractYAMLStorage implements PatternConfiguration {
 
   public static final String FILE_NAME = "substitution.yml";
-  
+
   /** The patterns created from this configuration file. */
   private final List<AppendPattern> patterns = new ArrayList<AppendPattern>();
 
@@ -59,16 +56,6 @@ public class AppendPatternConfiguration extends AbstractYAMLStorage implements P
   public List<AppendPattern> getPatterns() {
     return Collections.unmodifiableList(this.patterns);
   }
-  
-  private void setDefaultPatterns() {
-    if (this.getConfiguration().getKeys(false).isEmpty()) {
-      this.getConfiguration().createSection("example-pattern");
-      this.getConfiguration().getConfigurationSection("example-pattern").set("pattern", "[hello]");
-      this.getConfiguration().getConfigurationSection("example-pattern").set("append-location", "end");
-      this.getConfiguration().getConfigurationSection("example-pattern").set("replacements", Arrays.asList("bonjour", "gutentag"));
-    }
-    this.save();
-  }
 
   /*
    * (non-Javadoc)
@@ -84,6 +71,16 @@ public class AppendPatternConfiguration extends AbstractYAMLStorage implements P
       final AppendPattern newPattern = new AppendPattern(pattern, values, permission, AppendPattern.Location.valueOf(appendAt.toUpperCase()));
       this.patterns.add(newPattern);
     }
+  }
+
+  private void setDefaultPatterns() {
+    if (this.getConfiguration().getKeys(false).isEmpty()) {
+      this.getConfiguration().createSection("example-pattern");
+      this.getConfiguration().getConfigurationSection("example-pattern").set("pattern", "[hello]");
+      this.getConfiguration().getConfigurationSection("example-pattern").set("append-location", "end");
+      this.getConfiguration().getConfigurationSection("example-pattern").set("replacements", Arrays.asList("bonjour", "gutentag"));
+    }
+    this.save();
   }
 
 }

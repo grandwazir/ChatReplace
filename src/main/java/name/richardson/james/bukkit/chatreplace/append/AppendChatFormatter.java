@@ -19,19 +19,16 @@
 package name.richardson.james.bukkit.chatreplace.append;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Set;
 
 import org.bukkit.permissions.Permissible;
 
 import name.richardson.james.bukkit.chatreplace.AbstractChatFormatter;
 import name.richardson.james.bukkit.chatreplace.AbstractPattern;
-import name.richardson.james.bukkit.chatreplace.ChatFormatter;
 import name.richardson.james.bukkit.utilities.permissions.PermissionManager;
 
 public class AppendChatFormatter extends AbstractChatFormatter {
 
-  public AppendChatFormatter(final AppendPatternConfiguration configuration, PermissionManager permissions) throws IOException {
+  public AppendChatFormatter(final AppendPatternConfiguration configuration, final PermissionManager permissions) throws IOException {
     super(configuration, permissions);
   }
 
@@ -41,11 +38,13 @@ public class AppendChatFormatter extends AbstractChatFormatter {
    * name.richardson.james.bukkit.chatreplace.ChatFormatter#format(java.lang
    * .String)
    */
-  public String format(Permissible player, String message) {
+  public String format(final Permissible player, String message) {
     final StringBuilder formattedMessage = new StringBuilder(message);
     for (final AbstractPattern pattern : this.getPatterns()) {
-      if (!this.testPermission(pattern, player)) continue;
-      AppendPattern appendPattern = (AppendPattern) pattern;
+      if (!this.testPermission(pattern, player)) {
+        continue;
+      }
+      final AppendPattern appendPattern = (AppendPattern) pattern;
       if (pattern.matches(message)) {
         switch (appendPattern.getLocation()) {
         case END:
