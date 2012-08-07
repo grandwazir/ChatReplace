@@ -78,7 +78,6 @@ public class ChatReplace extends AbstractPlugin {
   @Override
   protected void loadConfiguration() throws IOException {
     super.loadConfiguration();
-    this.getCustomLogger().setDebugging(true);
     this.configuration = new ChatReplaceConfiguration(this);
     this.loadFormatters();
   }
