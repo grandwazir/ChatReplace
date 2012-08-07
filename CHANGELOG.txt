@@ -1,5 +1,7 @@
-Changelog for ChatReplace (v1.2.2-SNAPSHOT)
+Changelog for ChatReplace (v1.3.0-SNAPSHOT)
 
+2012-08-05 19:54:42 +0100    bumped version, added reload command (James Richardson)
+2012-08-05 19:51:28 +0100    code clean up (James Richardson)
 2012-08-05 19:44:03 +0100    add permission support (James Richardson)
 2012-08-05 19:16:52 +0100    add summary of loaded messages to log (James Richardson)
 2012-08-05 18:58:17 +0100    fix NPE when loading configuration (James Richardson)
