@@ -30,7 +30,7 @@ import name.richardson.james.bukkit.utilities.persistence.AbstractYAMLStorage;
 
 public class SubstitutionPatternConfiguration extends AbstractYAMLStorage implements PatternConfiguration {
 
-  public static final String FILE_NAME = "append.yml";
+  public static final String FILE_NAME = "substitution.yml";
 
   /** The patterns created from this configuration file. */
   private final List<SubstitutionPattern> patterns = new ArrayList<SubstitutionPattern>();
