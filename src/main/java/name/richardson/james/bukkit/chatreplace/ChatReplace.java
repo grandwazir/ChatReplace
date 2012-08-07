@@ -123,7 +123,7 @@ public class ChatReplace extends AbstractPlugin {
       final AppendPatternConfiguration configuration = new AppendPatternConfiguration(this);
       this.formatters.add(new AppendChatFormatter(configuration, this.getPermissionManager()));
     }
-    this.getCustomLogger().info(this, "patterns-loaded", this.getTotalPatterns());
+    this.getCustomLogger().debug(this, "patterns-loaded", this.getTotalPatterns());
   }
 
 }
