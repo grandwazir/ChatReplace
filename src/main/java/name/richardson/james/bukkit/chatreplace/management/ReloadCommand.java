@@ -26,7 +26,9 @@ import name.richardson.james.bukkit.chatreplace.ChatReplace;
 import name.richardson.james.bukkit.utilities.command.AbstractCommand;
 import name.richardson.james.bukkit.utilities.command.CommandArgumentException;
 import name.richardson.james.bukkit.utilities.command.CommandPermissionException;
+import name.richardson.james.bukkit.utilities.command.ConsoleCommand;
 
+@ConsoleCommand
 public class ReloadCommand extends AbstractCommand {
 
   /** The plugin */
