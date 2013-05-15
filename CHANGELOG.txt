@@ -1,5 +1,9 @@
-Changelog for ChatReplace (v1.3.0-SNAPSHOT)
+Changelog for ChatReplace (v1.3.1-SNAPSHOT)
 
+2013-05-15 01:07:55 +0100    update to use latest bukkit utilities (James Richardson)
+
+v1.3.0
+2012-08-08 06:09:56 +0100    commit changelog (James Richardson)
 2012-08-07 07:04:20 +0100    fix misconfiguration causing wrong formatters to load (James Richardson)
 2012-08-07 01:20:40 +0100    disable debugging by default (James Richardson)
 2012-08-07 01:18:47 +0100    change message to debug from info (James Richardson)
