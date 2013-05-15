@@ -19,7 +19,10 @@
 package name.richardson.james.bukkit.chatreplace.management;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 import name.richardson.james.bukkit.chatreplace.ChatReplace;
@@ -35,7 +38,7 @@ public class ReloadCommand extends AbstractCommand {
   private final ChatReplace plugin;
 
   public ReloadCommand(final ChatReplace plugin) {
-    super(plugin, false);
+    super(plugin);
     this.plugin = plugin;
   }
 
@@ -50,6 +53,10 @@ public class ReloadCommand extends AbstractCommand {
 
   public void parseArguments(final String[] arguments, final CommandSender sender) throws CommandArgumentException {
     return;
+  }
+
+  public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] arguments) {
+    return new ArrayList<String>();
   }
 
 }
